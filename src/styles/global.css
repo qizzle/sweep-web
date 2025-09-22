@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@theme {
+    --font-sans: "Geist", sans-serif;
+    --font-bit: "Bitcount Grid Single", system-ui;
+    --font-mono: "Geist Mono", monospace;
+}

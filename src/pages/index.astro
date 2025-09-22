@@ -1,0 +1,279 @@
+---
+import { Image } from "astro:assets";
+import "../styles/global.css";
+import "@fontsource/geist";
+import "@fontsource/geist/600";
+import "@fontsource/bitcount-grid-single";
+import "@fontsource/geist-mono";
+
+import sweepLogo from "../assets/sweep.svg";
+import korpus from "../assets/korpus.png";
+import jugendforscht from "../assets/jugendforscht.svg";
+import jugendforschtsticker from "../assets/jugendforschtsticker.jpeg";
+import avhg from "../assets/avhg.png";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>SWEEP - Jugend forscht</title>
+	</head>
+	<body>
+		<header class="p-8 flex justify-center fixed w-full backdrop-blur z-50">
+			<a href="#hero">
+				<Image src={sweepLogo} alt="sweep" class="w-36" />
+			</a>
+		</header>
+		<section id="hero" class="h-screen w-full grid grid-cols-2">
+			<div
+				class="mx-8 mt-24 mb-8 border-3 border-dotted flex justify-center items-center"
+			>
+				<Image src={korpus} alt="" class="w-3xl" />
+			</div>
+			<div class="my-auto mx-24">
+				<h1 class="font-bit text-8xl">SWEEP</h1>
+				<p class="text-sm">
+					<span class="underline">S</span>mart <span class="underline"
+						>W</span
+					>aste <span class="underline">E</span>limination & <span
+						class="underline">E</span
+					>co
+					<span class="underline">P</span>rotection
+				</p>
+				<p class="mt-8 mb-4 text-lg tracking-tight">
+					Ein intelligenter Müllsammelroboter für Grünflächen und
+					öffentliche Grünanlagen.
+				</p>
+				<p class="flex items-center gap-1.5">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 16 16"
+						fill="currentColor"
+						class="size-4"
+					>
+						<path
+							d="M7.702 1.368a.75.75 0 0 1 .597 0c2.098.91 4.105 1.99 6.004 3.223a.75.75 0 0 1-.194 1.348A34.27 34.27 0 0 0 8.341 8.25a.75.75 0 0 1-.682 0c-.625-.32-1.262-.62-1.909-.901v-.542a36.878 36.878 0 0 1 2.568-1.33.75.75 0 0 0-.636-1.357 38.39 38.39 0 0 0-3.06 1.605.75.75 0 0 0-.372.648v.365c-.773-.294-1.56-.56-2.359-.8a.75.75 0 0 1-.194-1.347 40.901 40.901 0 0 1 6.005-3.223ZM4.25 8.348c-.53-.212-1.067-.411-1.611-.596a40.973 40.973 0 0 0-.418 2.97.75.75 0 0 0 .474.776c.175.068.35.138.524.21a5.544 5.544 0 0 1-.58.681.75.75 0 1 0 1.06 1.06c.35-.349.655-.726.915-1.124a29.282 29.282 0 0 0-1.395-.617A5.483 5.483 0 0 0 4.25 8.5v-.152Z"
+						></path>
+						<path
+							d="M7.603 13.96c-.96-.6-1.958-1.147-2.989-1.635a6.981 6.981 0 0 0 1.12-3.341c.419.192.834.393 1.244.602a2.25 2.25 0 0 0 2.045 0 32.787 32.787 0 0 1 4.338-1.834c.175.978.315 1.969.419 2.97a.75.75 0 0 1-.474.776 29.385 29.385 0 0 0-4.909 2.461.75.75 0 0 1-.794 0Z"
+						></path>
+					</svg>
+
+					Entwickelt von Roland Jindra und Jonas Koch.
+				</p>
+				<p class="mt-8 text-sm text-black/60">Gefördert von</p>
+				<div class="flex gap-12 items-center">
+					<a
+						class="hover:grayscale-50 transition"
+						href="https://www.jugend-forscht-nrw.de/"
+						target="_blank"
+					>
+						<Image
+							src={jugendforscht}
+							alt="Jugend forscht"
+							class="w-62"
+						/>
+					</a>
+					<a
+						class="hover:grayscale-50 transition"
+						href="https://www.avhgneuss.de/"
+						target="_blank"
+					>
+						<Image
+							src={avhg}
+							alt="Alexander-von-Humboldt-Gymnasium Neuss"
+							class="w-62"
+						/>
+					</a>
+				</div>
+			</div>
+		</section>
+		<section
+			id="ideenfindung"
+			class="py-4 w-full grid grid-cols-2 grid-rows-2 px-8"
+		>
+			<div
+				class="flex flex-col text-center gap-8 py-12 px-16 border-t-3 border-l-3 border-dotted"
+			>
+				<h1 class="font-bit text-6xl uppercase relative">
+					<span
+						class="absolute -right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-10xl"
+						>#1</span
+					>Kurzfassung
+				</h1>
+				<p class="text-base max-w-3xl leading-relaxed text-left">
+					Ein sehr markantes Problem in unserer modernen Gesellschaft
+					ist Müll. <span class="underline"
+						>Wir verbrauchen in Deutschland jede Stunde 320.000
+						Einweg-Becher.</span
+					> Viele davon landen in unserer Umwelt. Grünanlagen, Parks und
+					Wiesen müssen konstant gesäubert und abgeräumt werden, damit
+					dieser Müll keine Gefahr für die Tier- und Pflanzenwelt darzustellt.
+					Wir haben uns diesem Problem gewidmet. Dazu entwickelten wir
+					ein Konzept für einen Müllsammelroboter, der mithilfe von künstlicher
+					Intelligenz dazu in der Lage sein soll, Müll auf Wiesen zu erkennen,
+					von anderen Stoffen zu unterscheiden und anschließend mit Hilfe
+					verschiedenster Mechanismen aufzusammeln. Durch jene Abläufe
+					soll unserer Roboter künftig und in einer weiterentwickelten
+					Form dazu in der Lage sein, völlig autonom auf befahrbaren Grünflächen
+					wie Parks und Wiesen, Müll zu erkennen und selbstständig aufzusammeln.
+				</p>
+				<a
+					href="https://www.bundesumweltministerium.de/faq/wie-viele-einweg-becher-werden-jaehrlich-verbraucht-wie-viele-landen-davon-in-der-umwelt"
+					target="_blank"
+					class="text-left flex items-center gap-1.5 w-fit px-2 py-1 border border-black/10 bg-black/5 rounded-full hover:bg-black/10 transition"
+					><svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 16 16"
+						fill="currentColor"
+						class="size-4"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z"
+							clip-rule="evenodd"></path>
+						<path
+							fill-rule="evenodd"
+							d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z"
+							clip-rule="evenodd"></path>
+					</svg>
+					Quelle</a
+				>
+			</div>
+			<div
+				class="flex flex-col text-center gap-8 py-12 px-16 border-t-3 border-r-3 border-l-3 border-dotted"
+			>
+				<h1 class="font-bit text-6xl uppercase relative">
+					<span
+						class="absolute -right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-10xl"
+						>#2</span
+					>Kurzfassung
+				</h1>
+				<p class="text-base max-w-3xl leading-relaxed text-left">
+					Ein sehr markantes Problem in unserer modernen Gesellschaft
+					ist Müll. Wir verbrauchen in Deutschland jede Stunde 320.000
+					Einweg-Becher. Viele davon landen in unserer Umwelt.
+					Grünanlagen, Parks und Wiesen müssen konstant gesäubert und
+					abgeräumt werden, damit dieser Müll keine Gefahr für die
+					Tier- und Pflanzenwelt darzustellt. Wir haben uns diesem
+					Problem gewidmet. Dazu entwickelten wir ein Konzept für
+					einen Müllsammelroboter, der mithilfe von künstlicher
+					Intelligenz dazu in der Lage sein soll, Müll auf Wiesen zu
+					erkennen, von anderen Stoffen zu unterscheiden und
+					anschließend mit Hilfe verschiedenster Mechanismen
+					aufzusammeln. Durch jene Abläufe soll unserer Roboter
+					künftig und in einer weiterentwickelten Form dazu in der
+					Lage sein, völlig autonom auf befahrbaren Grünflächen wie
+					Parks und Wiesen, Müll zu erkennen und selbstständig
+					aufzusammeln.
+				</p>
+			</div>
+			<div
+				class="flex flex-col text-center gap-8 py-12 px-16 border-t-3 border-l-3 border-b-3 border-dotted"
+			>
+				<h1 class="font-bit text-6xl uppercase relative">
+					<span
+						class="absolute -right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-10xl"
+						>#3</span
+					>Kurzfassung
+				</h1>
+				<p class="text-base max-w-3xl leading-relaxed text-left">
+					Ein sehr markantes Problem in unserer modernen Gesellschaft
+					ist Müll. Wir verbrauchen in Deutschland jede Stunde 320.000
+					Einweg-Becher. Viele davon landen in unserer Umwelt.
+					Grünanlagen, Parks und Wiesen müssen konstant gesäubert und
+					abgeräumt werden, damit dieser Müll keine Gefahr für die
+					Tier- und Pflanzenwelt darzustellt. Wir haben uns diesem
+					Problem gewidmet. Dazu entwickelten wir ein Konzept für
+					einen Müllsammelroboter, der mithilfe von künstlicher
+					Intelligenz dazu in der Lage sein soll, Müll auf Wiesen zu
+					erkennen, von anderen Stoffen zu unterscheiden und
+					anschließend mit Hilfe verschiedenster Mechanismen
+					aufzusammeln. Durch jene Abläufe soll unserer Roboter
+					künftig und in einer weiterentwickelten Form dazu in der
+					Lage sein, völlig autonom auf befahrbaren Grünflächen wie
+					Parks und Wiesen, Müll zu erkennen und selbstständig
+					aufzusammeln.
+				</p>
+			</div>
+			<div
+				class="flex flex-col text-center gap-8 py-12 px-16 border-3 border-dotted"
+			>
+				<h1 class="font-bit text-6xl uppercase relative">
+					<span
+						class="absolute -right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-10xl"
+						>#4</span
+					>Kurzfassung
+				</h1>
+				<p class="text-base max-w-3xl leading-relaxed text-left">
+					Ein sehr markantes Problem in unserer modernen Gesellschaft
+					ist Müll. Wir verbrauchen in Deutschland jede Stunde 320.000
+					Einweg-Becher. Viele davon landen in unserer Umwelt.
+					Grünanlagen, Parks und Wiesen müssen konstant gesäubert und
+					abgeräumt werden, damit dieser Müll keine Gefahr für die
+					Tier- und Pflanzenwelt darzustellt. Wir haben uns diesem
+					Problem gewidmet. Dazu entwickelten wir ein Konzept für
+					einen Müllsammelroboter, der mithilfe von künstlicher
+					Intelligenz dazu in der Lage sein soll, Müll auf Wiesen zu
+					erkennen, von anderen Stoffen zu unterscheiden und
+					anschließend mit Hilfe verschiedenster Mechanismen
+					aufzusammeln. Durch jene Abläufe soll unserer Roboter
+					künftig und in einer weiterentwickelten Form dazu in der
+					Lage sein, völlig autonom auf befahrbaren Grünflächen wie
+					Parks und Wiesen, Müll zu erkennen und selbstständig
+					aufzusammeln.
+				</p>
+			</div>
+		</section>
+		<footer
+			class="py-12 px-18 w-full mt-24 bg-black text-white flex flex-col gap-24"
+		>
+			<div class="w-fit">
+				<a href="#hero"
+					><Image
+						src={sweepLogo}
+						alt="sweep"
+						class="w-36 invert"
+					/></a
+				>
+			</div>
+			<div class="w-full flex items-baseline-last justify-between">
+				<a href="https://www.jugend-forscht-nrw.de/" target="_blank">
+					<Image
+						src={jugendforschtsticker}
+						alt="Jugend forscht"
+						class="w-62 rounded-xl"
+					/>
+				</a>
+				<div class="flex flex-col gap-2 text-right items-end font-mono">
+					<p>Logodesign von Lisa Moritz</p>
+					<p class="flex gap-3">
+						Webdesign von <a
+							href="https://github.com/qizzle"
+							target="_blank"
+							class="flex hover:underline gap-0.5"
+							>Dimitri Bartsch<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 16 16"
+								fill="currentColor"
+								class="size-4"
+							>
+								<path
+									fill-rule="evenodd"
+									d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z"
+									clip-rule="evenodd"></path>
+							</svg>
+						</a>
+						<p>
+							<span class="font-bit text-lg">SWEEP</span> von Roland
+							Jindra und Jonas Koch
+						</p>
+					</p>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
