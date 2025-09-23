@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 // @ts-ignore: Component exists
-import { Code } from "astro:components"
+import { Code } from "astro:components";
 import "../styles/global.css";
 import "@fontsource/geist";
 import "@fontsource/geist/600";
@@ -14,12 +14,126 @@ import jugendforscht from "../assets/jugendforscht.svg";
 import jugendforschtsticker from "../assets/jugendforschtsticker.jpeg";
 import avhg from "../assets/avhg.png";
 
-const CODE = {
-	main: `print('Hello, World!')`,
-	hallo: `print('Hallo, Welt!')`,
-	test: `def test():
-	return "This is a test function.`
-}
+const code = `import cv2
+import numpy as np
+import time
+import onnxruntime as ort
+
+# Pfad zum ONNX Modell
+onnx_model_path = "/home/sweep/best.onnx"
+
+# ONNX Runtime Session mit GPU-Unterstützung erstellen
+session = ort.InferenceSession(onnx_model_path, providers=["CUDAExecutionProvider"])
+
+# Eingabe-Details aus dem Modell abrufen
+input_name = session.get_inputs()[0].name
+input_shape = session.get_inputs()[0].shape  # z. B. [1, 3, 640, 640]
+input_width, input_height = input_shape[3], input_shape[2]
+
+# USB-Webcam öffnen (Index 0)
+cap = cv2.VideoCapture(0)
+if not cap.isOpened():
+    print("Error: Could not open webcam.")
+    exit()
+
+# Bildschirmgröße abrufen
+screen_width = 1920  # Anpassen falls nötig
+screen_height = 1080  # Anpassen falls nötig
+
+# Konfidenz-Schwelle für Detektion
+confThreshold = 0.65  # 65% Confidence
+nmsThreshold = 0.4  # Non-Maximum-Suppression Schwelle
+
+# Klassenname (nur ein Label vorhanden)
+label = "muell"
+
+# Fenster maximieren und Mauszeiger verstecken
+cv2.namedWindow("YOLO Detection", cv2.WND_PROP_FULLSCREEN)
+cv2.setWindowProperty("YOLO Detection", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+cv2.setMouseCallback("YOLO Detection", lambda *args: None)
+cv2.waitKey(1)
+cv2.moveWindow("YOLO Detection", 0, 0)
+
+prev_time = time.time()
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # Originalbildmaße ermitteln
+    orig_h, orig_w = frame.shape[:2]
+    scale_x = orig_w / input_width
+    scale_y = orig_h / input_height
+
+    # Vorverarbeitung: Bild auf Modellgröße skalieren, BGR -> RGB, Normalisierung, HWC->CHW
+    resized = cv2.resize(frame, (input_width, input_height))
+    rgb = cv2.cvtColor(resized, cv2.COLOR_BGR2RGB)
+    blob = rgb.astype(np.float32) / 255.0
+    blob = np.transpose(blob, (2, 0, 1))
+    blob = np.expand_dims(blob, axis=0)
+
+    # Inferenz durchführen
+    preds = session.run(None, {input_name: blob})
+    preds = preds[0][0]  # Entfernt Batch-Dimension: (1, 5, 8400) -> (5, 8400)
+
+    # Die 5 Kanäle extrahieren: cx, cy, w, h, confidence
+    cx, cy, w, h, conf = preds  # (5, 8400)
+
+    # Nur Boxen mit hoher Confidence behalten
+    mask = conf > confThreshold
+    cx, cy, w, h, conf = cx[mask], cy[mask], w[mask], h[mask], conf[mask]
+
+    # Umwandlung von (cx, cy, w, h) in (x1, y1, x2, y2)
+    x1 = (cx - w / 2) * scale_x
+    y1 = (cy - h / 2) * scale_y
+    x2 = (cx + w / 2) * scale_x
+    y2 = (cy + h / 2) * scale_y
+
+    # Bounding-Boxen zeichnen (Dicke 1)
+    for i in range(len(x1)):
+        left, top, right, bottom = int(x1[i]), int(y1[i]), int(x2[i]), int(y2[i])
+        cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 1)
+        text = f"{label}: {conf[i]:.2f}"
+        cv2.putText(frame, text, (left, max(20, top - 10)), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1, cv2.LINE_AA)
+
+    # FPS berechnen
+    current_time = time.time()
+    fps = 1 / (current_time - prev_time)
+    prev_time = current_time
+
+    # FPS-Anzeige kleiner (fontScale 0.5, thickness 2 bleibt)
+    cv2.putText(frame, f"FPS: {fps:.2f}", (50, 50),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
+
+    # Bild skalieren und schwarze Balken hinzufügen, um das Seitenverhältnis beizubehalten
+    aspect_ratio = orig_w / orig_h
+    new_width = screen_width
+    new_height = int(screen_width / aspect_ratio)
+    if new_height > screen_height:
+        new_height = screen_height
+        new_width = int(screen_height * aspect_ratio)
+    frame_resized = cv2.resize(frame, (new_width, new_height))
+    top_padding = (screen_height - new_height) // 2
+    bottom_padding = screen_height - new_height - top_padding
+    left_padding = (screen_width - new_width) // 2
+    right_padding = screen_width - new_width - left_padding
+    frame_padded = cv2.copyMakeBorder(
+        frame_resized, 
+        top_padding, bottom_padding, left_padding, right_padding, 
+        cv2.BORDER_CONSTANT, value=(0, 0, 0)
+    )
+
+    cv2.imshow("YOLO Detection", frame_padded)
+    cv2.setWindowProperty("YOLO Detection", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+`;
 ---
 
 <html lang="en">
@@ -43,7 +157,7 @@ const CODE = {
 				<Image src={korpus} alt="" class="w-3xl" />
 			</div>
 			<div class="my-auto mx-24">
-				<h1 class="text-8xl">SWEEP</h1>
+				<h1 class="font-bit text-8xl">SWEEP</h1>
 				<p class="text-sm">
 					<span class="underline">S</span>mart <span class="underline"
 						>W</span
@@ -159,25 +273,27 @@ const CODE = {
 					<span
 						class="absolute -right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-10xl"
 						>#2</span
-					>Kurzfassung
+					>Aufbau
 				</h1>
 				<p class="text-base max-w-3xl leading-relaxed text-left">
-					Ein sehr markantes Problem in unserer modernen Gesellschaft
-					ist Müll. Wir verbrauchen in Deutschland jede Stunde 320.000
-					Einweg-Becher. Viele davon landen in unserer Umwelt.
-					Grünanlagen, Parks und Wiesen müssen konstant gesäubert und
-					abgeräumt werden, damit dieser Müll keine Gefahr für die
-					Tier- und Pflanzenwelt darzustellt. Wir haben uns diesem
-					Problem gewidmet. Dazu entwickelten wir ein Konzept für
-					einen Müllsammelroboter, der mithilfe von künstlicher
-					Intelligenz dazu in der Lage sein soll, Müll auf Wiesen zu
-					erkennen, von anderen Stoffen zu unterscheiden und
-					anschließend mit Hilfe verschiedenster Mechanismen
-					aufzusammeln. Durch jene Abläufe soll unserer Roboter
-					künftig und in einer weiterentwickelten Form dazu in der
-					Lage sein, völlig autonom auf befahrbaren Grünflächen wie
-					Parks und Wiesen, Müll zu erkennen und selbstständig
-					aufzusammeln.
+					SWEEP ist modular aufgebaut und speziell für unebenes
+					Gelände konzipiert. Ein kettenbetriebenes Fahrgestell sorgt
+					für Stabilität, während ein Aufnahmesystem aus Zacken und
+					Bürsten den Müll kontrolliert in das Innere befördert. Dort
+					transportiert ein Förderband die Abfälle in einen
+					Sammelbehälter, der mit handelsüblichen Müllbeuteln
+					ausgestattet werden kann. Herzstück der Steuerung ist der
+					Jetson Orin Nano Super, ein leistungsstarker Microcomputer,
+					der die Bildanalyse durchführt und die Motoren präzise
+					ansteuert. Für den Antrieb werden robuste Gleichstrommotoren
+					genutzt, kleinere Motoren treiben Bürsten und Förderband an.
+					Die Stromversorgung erfolgt über eine langlebige Batterie
+					mit integriertem Spannungswandler. Ergänzend sind Kameras
+					und Sensoren geplant, die Navigation, Hinderniserkennung und
+					Müllidentifikation ermöglichen. Durch diese Kombination
+					entsteht ein autonomes System, das Müll zuverlässig erkennt,
+					aufnimmt und transportiert - eine technische Basis für ein
+					effizientes Umweltprojekt.
 				</p>
 			</div>
 			<div
@@ -187,26 +303,71 @@ const CODE = {
 					<span
 						class="absolute -right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-10xl"
 						>#3</span
-					>Kurzfassung
+					>KI
 				</h1>
 				<p class="text-base max-w-3xl leading-relaxed text-left">
-					Ein sehr markantes Problem in unserer modernen Gesellschaft
-					ist Müll. Wir verbrauchen in Deutschland jede Stunde 320.000
-					Einweg-Becher. Viele davon landen in unserer Umwelt.
-					Grünanlagen, Parks und Wiesen müssen konstant gesäubert und
-					abgeräumt werden, damit dieser Müll keine Gefahr für die
-					Tier- und Pflanzenwelt darzustellt. Wir haben uns diesem
-					Problem gewidmet. Dazu entwickelten wir ein Konzept für
-					einen Müllsammelroboter, der mithilfe von künstlicher
-					Intelligenz dazu in der Lage sein soll, Müll auf Wiesen zu
-					erkennen, von anderen Stoffen zu unterscheiden und
-					anschließend mit Hilfe verschiedenster Mechanismen
-					aufzusammeln. Durch jene Abläufe soll unserer Roboter
-					künftig und in einer weiterentwickelten Form dazu in der
-					Lage sein, völlig autonom auf befahrbaren Grünflächen wie
-					Parks und Wiesen, Müll zu erkennen und selbstständig
-					aufzusammeln.
+					Ein zentrales Element von SWEEP ist die künstliche
+					Intelligenz, die den Roboter in seiner Arbeit unterstützt.
+					Mit einer Kamera nimmt das System die Umgebung in Echtzeit
+					auf. Die KI analysiert die Bilder und erkennt Müll anhand
+					von Form, Farbe und Reflexion. Grundlage ist das Modell
+					„YOLO“, das wir mit dem Datenset „TACO“ speziell auf
+					Umweltsituationen trainiert haben. Sobald Müllobjekte
+					identifiziert sind, werden deren Koordinaten an das interne
+					Steuersystem weitergegeben. Dieses richtet den Roboter
+					präzise aus, fährt ihn zum Abfall und aktiviert erst dann
+					Bürsten und Förderband. Dadurch wird Energie gespart und
+					Fehlaufnahmen werden reduziert. Zusätzlich sind Sensoren
+					vorgesehen, die Hindernisse erkennen, Sicherheitsabstände
+					einhalten und eine automatische Umfahrung ermöglichen. Das
+					Zusammenspiel von KI, Motorsteuerung und Mechanik macht den
+					Roboter in seiner Arbeitsweise effizient, zuverlässig und
+					weitgehend autonom.
 				</p>
+				<div class="flex gap-4 items-center">
+					<a
+						href="https://github.com/ultralytics/ultralytics"
+						target="_blank"
+						class="text-left flex items-center gap-1.5 w-fit px-2 py-1 border border-black/10 bg-black/5 rounded-full hover:bg-black/10 transition"
+						><svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 16 16"
+							fill="currentColor"
+							class="size-4"
+						>
+							<path
+								fill-rule="evenodd"
+								d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z"
+								clip-rule="evenodd"></path>
+							<path
+								fill-rule="evenodd"
+								d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z"
+								clip-rule="evenodd"></path>
+						</svg>
+						YOLO</a
+					>
+					<a
+						href="http://tacodataset.org/"
+						target="_blank"
+						class="text-left flex items-center gap-1.5 w-fit px-2 py-1 border border-black/10 bg-black/5 rounded-full hover:bg-black/10 transition"
+						><svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 16 16"
+							fill="currentColor"
+							class="size-4"
+						>
+							<path
+								fill-rule="evenodd"
+								d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z"
+								clip-rule="evenodd"></path>
+							<path
+								fill-rule="evenodd"
+								d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z"
+								clip-rule="evenodd"></path>
+						</svg>
+						TACO</a
+					>
+				</div>
 			</div>
 			<div
 				class="flex flex-col text-center gap-8 py-12 px-16 border-3 border-dotted"
@@ -215,39 +376,130 @@ const CODE = {
 					<span
 						class="absolute -right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-10xl"
 						>#4</span
-					>Kurzfassung
+					>Ausblick
 				</h1>
 				<p class="text-base max-w-3xl leading-relaxed text-left">
-					Ein sehr markantes Problem in unserer modernen Gesellschaft
-					ist Müll. Wir verbrauchen in Deutschland jede Stunde 320.000
-					Einweg-Becher. Viele davon landen in unserer Umwelt.
-					Grünanlagen, Parks und Wiesen müssen konstant gesäubert und
-					abgeräumt werden, damit dieser Müll keine Gefahr für die
-					Tier- und Pflanzenwelt darzustellt. Wir haben uns diesem
-					Problem gewidmet. Dazu entwickelten wir ein Konzept für
-					einen Müllsammelroboter, der mithilfe von künstlicher
-					Intelligenz dazu in der Lage sein soll, Müll auf Wiesen zu
-					erkennen, von anderen Stoffen zu unterscheiden und
-					anschließend mit Hilfe verschiedenster Mechanismen
-					aufzusammeln. Durch jene Abläufe soll unserer Roboter
-					künftig und in einer weiterentwickelten Form dazu in der
-					Lage sein, völlig autonom auf befahrbaren Grünflächen wie
-					Parks und Wiesen, Müll zu erkennen und selbstständig
-					aufzusammeln.
+					Die Entwicklung von SWEEP brachte zahlreiche
+					Herausforderungen mit sich. Besonders die Finanzierung war
+					anspruchsvoll, da hochwertige Motoren, Sensoren und Computer
+					hohe Kosten verursachten. Erst durch eine Förderung konnten
+					wir alle benötigten Komponenten beschaffen. Auch der Faktor
+					Zeit stellte eine Hürde dar: Viele Bauteile waren erst kurz
+					vor Abgabe verfügbar, sodass die praktische Umsetzung nur
+					teilweise erfolgte. Dennoch konnten wir zentrale Konzepte
+					entwickeln und die KI erfolgreich trainieren. Für die
+					Zukunft planen wir die Fertigstellung der Software,
+					Testläufe auf realen Grünflächen und den Einsatz weiterer
+					Sensorik wie GPS oder Infrarot. Dadurch soll der Roboter
+					effizientere Routen fahren, selbstständig zurückkehren und
+					detaillierte Daten über den gesammelten Müll liefern.
+					Langfristig könnte SWEEP so eine nachhaltige, kostengünstige
+					und personalarme Lösung für die Reinigung öffentlicher
+					Grünanlagen darstellen.
 				</p>
 			</div>
 		</section>
 		<section class="px-36 py-24">
+			<h1 class="font-bit text-6xl uppercase mb-12 text-center">Code</h1>
 			<div class="flex flex-col border border-black/10 rounded-2xl">
-				<div class="py-4 px-5 bg-black/5 flex items-center rounded-t-2xl gap-2">
-					<svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="16 16 32 32"><path fill="url(#python__a)" d="M31.885 16c-8.124 0-7.617 3.523-7.617 3.523l.01 3.65h7.752v1.095H21.197S16 23.678 16 31.876c0 8.196 4.537 7.906 4.537 7.906h2.708v-3.804s-.146-4.537 4.465-4.537h7.688s4.32.07 4.32-4.175v-7.019S40.374 16 31.885 16zm-4.275 2.454a1.394 1.394 0 1 1 0 2.79 1.393 1.393 0 0 1-1.395-1.395c0-.771.624-1.395 1.395-1.395z"/><path fill="url(#python__b)" d="M32.115 47.833c8.124 0 7.617-3.523 7.617-3.523l-.01-3.65H31.97v-1.095h10.832S48 40.155 48 31.958c0-8.197-4.537-7.906-4.537-7.906h-2.708v3.803s.146 4.537-4.465 4.537h-7.688s-4.32-.07-4.32 4.175v7.019s-.656 4.247 7.833 4.247zm4.275-2.454a1.393 1.393 0 0 1-1.395-1.395 1.394 1.394 0 1 1 1.395 1.395z"/><defs><linearGradient id="python__a" x1="19.075" x2="34.898" y1="18.782" y2="34.658" gradientUnits="userSpaceOnUse"><stop stop-color="#387EB8"/><stop offset="1" stop-color="#366994"/></linearGradient><linearGradient id="python__b" x1="28.809" x2="45.803" y1="28.882" y2="45.163" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE052"/><stop offset="1" stop-color="#FFC331"/></linearGradient></defs></svg>
-					<p class="font-mono">main.py</p>
+				<div
+					class="py-4 px-5 bg-black/5 flex items-center rounded-2xl gap-2"
+					id="codediv"
+				>
+					<svg
+						class="size-4"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="16 16 32 32"
+						><path
+							fill="url(#python__a)"
+							d="M31.885 16c-8.124 0-7.617 3.523-7.617 3.523l.01 3.65h7.752v1.095H21.197S16 23.678 16 31.876c0 8.196 4.537 7.906 4.537 7.906h2.708v-3.804s-.146-4.537 4.465-4.537h7.688s4.32.07 4.32-4.175v-7.019S40.374 16 31.885 16zm-4.275 2.454a1.394 1.394 0 1 1 0 2.79 1.393 1.393 0 0 1-1.395-1.395c0-.771.624-1.395 1.395-1.395z"
+						></path><path
+							fill="url(#python__b)"
+							d="M32.115 47.833c8.124 0 7.617-3.523 7.617-3.523l-.01-3.65H31.97v-1.095h10.832S48 40.155 48 31.958c0-8.197-4.537-7.906-4.537-7.906h-2.708v3.803s.146 4.537-4.465 4.537h-7.688s-4.32-.07-4.32 4.175v7.019s-.656 4.247 7.833 4.247zm4.275-2.454a1.393 1.393 0 0 1-1.395-1.395 1.394 1.394 0 1 1 1.395 1.395z"
+						></path><defs
+							><linearGradient
+								id="python__a"
+								x1="19.075"
+								x2="34.898"
+								y1="18.782"
+								y2="34.658"
+								gradientUnits="userSpaceOnUse"
+								><stop stop-color="#387EB8"></stop><stop
+									offset="1"
+									stop-color="#366994"></stop></linearGradient
+							><linearGradient
+								id="python__b"
+								x1="28.809"
+								x2="45.803"
+								y1="28.882"
+								y2="45.163"
+								gradientUnits="userSpaceOnUse"
+								><stop stop-color="#FFE052"></stop><stop
+									offset="1"
+									stop-color="#FFC331"></stop></linearGradient
+							></defs
+						></svg
+					>
+					<div class="flex items-center justify-between w-full">
+						<p class="font-mono select-none">main.py</p>
+						<button
+							onclick="toggleAccordion()"
+							id="toggleButton"
+							class="p-2 select-auto rounded-full bg-black/5 border border-black/10 hover:bg-black/10 transition cursor-pointer"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 16 16"
+								fill="currentColor"
+								class="size-4"
+							>
+								<path
+									fill-rule="evenodd"
+									d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
+									clip-rule="evenodd"></path>
+							</svg>
+						</button>
+					</div>
 				</div>
-				<Code class="px-4 py-6 rounded-b-2xl" code="print('Hello, World!')" lang="py" />
+				<Code
+					id="codeblock"
+					class="px-4 py-6 rounded-b-2xl hidden"
+					code={code}
+					lang="py"
+				/>
 			</div>
 		</section>
+		<section
+			class="py-12 flex flex-col justify-center items-center border-t-3 border-b-3 border-dotted gap-12"
+		>
+			<h1 class="font-bit text-6xl uppercase text-center">
+				Projektarbeit
+			</h1>
+			<p class="max-w-3xl text-center">
+				Unsere ausführliche Projektarbeit zu SWEEP als PDF.
+			</p>
+			<a
+				class="px-4 py-2 bg-blue-500 text-blue-50 rounded-full text-xl hover:bg-blue-600 border border-black/5 transition flex items-center gap-1"
+				href="/SWEEP.pdf"
+				target="_blank"
+				>SWEEP.pdf<svg
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 16 16"
+					fill="currentColor"
+					class="size-5"
+				>
+					<path
+						d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72Z"
+					></path>
+					<path
+						d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"
+					></path>
+				</svg>
+			</a>
+		</section>
 		<footer
-			class="py-12 px-18 w-full mt-24 bg-black text-white flex flex-col gap-24"
+			class="py-12 px-18 mt-12 w-full bg-black text-white flex flex-col gap-24"
 		>
 			<div class="w-fit">
 				<a href="#hero"
@@ -295,3 +547,16 @@ const CODE = {
 		</footer>
 	</body>
 </html>
+<script defer>
+	function toggleAccordion() {
+		const codeBlock = document.querySelector("#codeblock");
+		const button = document.querySelector("#toggleButton");
+		const divContainer = document.querySelector("#codediv");
+		if (codeBlock) {
+			codeBlock.classList.toggle("hidden");
+			divContainer.classList.toggle("rounded-2xl");
+			divContainer.classList.toggle("rounded-t-2xl");
+			button.classList.toggle("rotate-180");
+		}
+	}
+</script>
