@@ -14,6 +14,16 @@ import jugendforscht from "../assets/jugendforscht.svg";
 import jugendforschtsticker from "../assets/jugendforschtsticker.jpeg";
 import avhg from "../assets/avhg.png";
 
+const navigationLinks = [
+	["Das Projekt", ""],
+	["Über uns", ""],
+	["Dokumentation", ""],
+	["FAQ", ""],
+	["Über Jugend forscht", ""],
+	["Jugend forscht am AvH", ""],
+	["Unterstützung", ""]
+]
+
 const code = `import cv2
 import numpy as np
 import time
@@ -145,10 +155,49 @@ cv2.destroyAllWindows()
 		<title>SWEEP - Jugend forscht</title>
 	</head>
 	<body>
-		<header class="p-8 flex justify-center fixed w-full backdrop-blur z-50">
-			<a href="#hero">
-				<Image src={sweepLogo} alt="sweep" class="w-36" />
+		<header
+			class="p-4 flex justify-between fixed w-full z-50"
+		>
+			<div></div>
+			<a class="" href="#hero">
+				<Image src={sweepLogo} alt="sweep" class="w-48 rounded-2xl p-4 backdrop-blur-2xl border border-white/10" />
 			</a>
+			<button
+				onclick="toggleNavigation()"
+				class="cursor-pointer p-3 z-40 transition-transform"
+				id="navigationButton"
+			>
+				<svg
+					fill="#000000"
+					version="1.1"
+					id="Capa_1"
+					xmlns="http://www.w3.org/2000/svg"
+					xmlns:xlink="http://www.w3.org/1999/xlink"
+					width="800px"
+					height="800px"
+					class="size-3.5"
+					viewBox="0 0 24.75 24.75"
+					xml:space="preserve"
+				>
+					<g>
+						<path
+							d="M0,3.875c0-1.104,0.896-2,2-2h20.75c1.104,0,2,0.896,2,2s-0.896,2-2,2H2C0.896,5.875,0,4.979,0,3.875z M22.75,10.375H2
+		c-1.104,0-2,0.896-2,2c0,1.104,0.896,2,2,2h20.75c1.104,0,2-0.896,2-2C24.75,11.271,23.855,10.375,22.75,10.375z M22.75,18.875H2
+		c-1.104,0-2,0.896-2,2s0.896,2,2,2h20.75c1.104,0,2-0.896,2-2S23.855,18.875,22.75,18.875z"
+						></path>
+					</g>
+				</svg>
+			</button>
+			<div
+			id="navigation"
+				class="fixed top-0 h-screen w-1/3 bg-white border-l-3 border-black border-dotted -right-1/3 overflow-hidden"
+			>
+				<div class="m-20 text-2xl font-medium h-full flex flex-col">
+					{navigationLinks.map((item) => (
+						<a class="py-2 relative w-fit group" href="/#home">{item}<div class="absolute bottom-1 w-full h-1 bg-black rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></div></a>
+					))}
+				</div>
+			</div>
 		</header>
 		<section id="hero" class="h-screen w-full grid grid-cols-2">
 			<div
@@ -225,7 +274,7 @@ cv2.destroyAllWindows()
 					<span
 						class="absolute -right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-10xl"
 						>#1</span
-					>Kurzfassung
+					>Motivation
 				</h1>
 				<p class="text-base max-w-3xl leading-relaxed text-left">
 					Ein sehr markantes Problem in unserer modernen Gesellschaft
@@ -474,7 +523,7 @@ cv2.destroyAllWindows()
 			class="py-12 flex flex-col justify-center items-center border-t-3 border-b-3 border-dotted gap-12"
 		>
 			<h1 class="font-bit text-6xl uppercase text-center">
-				Projektarbeit
+				Die Projektarbeit
 			</h1>
 			<p class="max-w-3xl text-center">
 				Unsere ausführliche Projektarbeit zu SWEEP als PDF.
@@ -506,7 +555,7 @@ cv2.destroyAllWindows()
 					><Image
 						src={sweepLogo}
 						alt="sweep"
-						class="w-36 invert"
+						class="w-64 invert"
 					/></a
 				>
 			</div>
@@ -557,6 +606,16 @@ cv2.destroyAllWindows()
 			divContainer.classList.toggle("rounded-2xl");
 			divContainer.classList.toggle("rounded-t-2xl");
 			button.classList.toggle("rotate-180");
+		}
+	}
+
+	function toggleNavigation() {
+		const navigationButton = document.querySelector("#navigationButton")
+		const navigation = document.querySelector("#navigation")
+		if (navigation) {
+			navigation.classList.toggle("-right-1/3")
+			navigation.classList.toggle("right-0")
+			navigationButton.classList.toggle("rotate-90")
 		}
 	}
 </script>
