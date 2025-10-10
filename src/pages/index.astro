@@ -21,8 +21,8 @@ const navigationLinks = [
 	["FAQ", ""],
 	["Über Jugend forscht", ""],
 	["Jugend forscht am AvH", ""],
-	["Unterstützung", ""]
-]
+	["Unterstützung", ""],
+];
 
 const code = `import cv2
 import numpy as np
@@ -43,8 +43,8 @@ input_width, input_height = input_shape[3], input_shape[2]
 # USB-Webcam öffnen (Index 0)
 cap = cv2.VideoCapture(0)
 if not cap.isOpened():
-    print("Error: Could not open webcam.")
-    exit()
+	print("Error: Could not open webcam.")
+	exit()
 
 # Bildschirmgröße abrufen
 screen_width = 1920  # Anpassen falls nötig
@@ -67,79 +67,79 @@ cv2.moveWindow("YOLO Detection", 0, 0)
 prev_time = time.time()
 
 while True:
-    ret, frame = cap.read()
-    if not ret:
-        break
+	ret, frame = cap.read()
+	if not ret:
+		break
 
-    # Originalbildmaße ermitteln
-    orig_h, orig_w = frame.shape[:2]
-    scale_x = orig_w / input_width
-    scale_y = orig_h / input_height
+	# Originalbildmaße ermitteln
+	orig_h, orig_w = frame.shape[:2]
+	scale_x = orig_w / input_width
+	scale_y = orig_h / input_height
 
-    # Vorverarbeitung: Bild auf Modellgröße skalieren, BGR -> RGB, Normalisierung, HWC->CHW
-    resized = cv2.resize(frame, (input_width, input_height))
-    rgb = cv2.cvtColor(resized, cv2.COLOR_BGR2RGB)
-    blob = rgb.astype(np.float32) / 255.0
-    blob = np.transpose(blob, (2, 0, 1))
-    blob = np.expand_dims(blob, axis=0)
+	# Vorverarbeitung: Bild auf Modellgröße skalieren, BGR -> RGB, Normalisierung, HWC->CHW
+	resized = cv2.resize(frame, (input_width, input_height))
+	rgb = cv2.cvtColor(resized, cv2.COLOR_BGR2RGB)
+	blob = rgb.astype(np.float32) / 255.0
+	blob = np.transpose(blob, (2, 0, 1))
+	blob = np.expand_dims(blob, axis=0)
 
-    # Inferenz durchführen
-    preds = session.run(None, {input_name: blob})
-    preds = preds[0][0]  # Entfernt Batch-Dimension: (1, 5, 8400) -> (5, 8400)
+	# Inferenz durchführen
+	preds = session.run(None, {input_name: blob})
+	preds = preds[0][0]  # Entfernt Batch-Dimension: (1, 5, 8400) -> (5, 8400)
 
-    # Die 5 Kanäle extrahieren: cx, cy, w, h, confidence
-    cx, cy, w, h, conf = preds  # (5, 8400)
+	# Die 5 Kanäle extrahieren: cx, cy, w, h, confidence
+	cx, cy, w, h, conf = preds  # (5, 8400)
 
-    # Nur Boxen mit hoher Confidence behalten
-    mask = conf > confThreshold
-    cx, cy, w, h, conf = cx[mask], cy[mask], w[mask], h[mask], conf[mask]
+	# Nur Boxen mit hoher Confidence behalten
+	mask = conf > confThreshold
+	cx, cy, w, h, conf = cx[mask], cy[mask], w[mask], h[mask], conf[mask]
 
-    # Umwandlung von (cx, cy, w, h) in (x1, y1, x2, y2)
-    x1 = (cx - w / 2) * scale_x
-    y1 = (cy - h / 2) * scale_y
-    x2 = (cx + w / 2) * scale_x
-    y2 = (cy + h / 2) * scale_y
+	# Umwandlung von (cx, cy, w, h) in (x1, y1, x2, y2)
+	x1 = (cx - w / 2) * scale_x
+	y1 = (cy - h / 2) * scale_y
+	x2 = (cx + w / 2) * scale_x
+	y2 = (cy + h / 2) * scale_y
 
-    # Bounding-Boxen zeichnen (Dicke 1)
-    for i in range(len(x1)):
-        left, top, right, bottom = int(x1[i]), int(y1[i]), int(x2[i]), int(y2[i])
-        cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 1)
-        text = f"{label}: {conf[i]:.2f}"
-        cv2.putText(frame, text, (left, max(20, top - 10)), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1, cv2.LINE_AA)
+	# Bounding-Boxen zeichnen (Dicke 1)
+	for i in range(len(x1)):
+		left, top, right, bottom = int(x1[i]), int(y1[i]), int(x2[i]), int(y2[i])
+		cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 1)
+		text = f"{label}: {conf[i]:.2f}"
+		cv2.putText(frame, text, (left, max(20, top - 10)), 
+					cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1, cv2.LINE_AA)
 
-    # FPS berechnen
-    current_time = time.time()
-    fps = 1 / (current_time - prev_time)
-    prev_time = current_time
+	# FPS berechnen
+	current_time = time.time()
+	fps = 1 / (current_time - prev_time)
+	prev_time = current_time
 
-    # FPS-Anzeige kleiner (fontScale 0.5, thickness 2 bleibt)
-    cv2.putText(frame, f"FPS: {fps:.2f}", (50, 50),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
+	# FPS-Anzeige kleiner (fontScale 0.5, thickness 2 bleibt)
+	cv2.putText(frame, f"FPS: {fps:.2f}", (50, 50),
+				cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
 
-    # Bild skalieren und schwarze Balken hinzufügen, um das Seitenverhältnis beizubehalten
-    aspect_ratio = orig_w / orig_h
-    new_width = screen_width
-    new_height = int(screen_width / aspect_ratio)
-    if new_height > screen_height:
-        new_height = screen_height
-        new_width = int(screen_height * aspect_ratio)
-    frame_resized = cv2.resize(frame, (new_width, new_height))
-    top_padding = (screen_height - new_height) // 2
-    bottom_padding = screen_height - new_height - top_padding
-    left_padding = (screen_width - new_width) // 2
-    right_padding = screen_width - new_width - left_padding
-    frame_padded = cv2.copyMakeBorder(
-        frame_resized, 
-        top_padding, bottom_padding, left_padding, right_padding, 
-        cv2.BORDER_CONSTANT, value=(0, 0, 0)
-    )
+	# Bild skalieren und schwarze Balken hinzufügen, um das Seitenverhältnis beizubehalten
+	aspect_ratio = orig_w / orig_h
+	new_width = screen_width
+	new_height = int(screen_width / aspect_ratio)
+	if new_height > screen_height:
+		new_height = screen_height
+		new_width = int(screen_height * aspect_ratio)
+	frame_resized = cv2.resize(frame, (new_width, new_height))
+	top_padding = (screen_height - new_height) // 2
+	bottom_padding = screen_height - new_height - top_padding
+	left_padding = (screen_width - new_width) // 2
+	right_padding = screen_width - new_width - left_padding
+	frame_padded = cv2.copyMakeBorder(
+		frame_resized, 
+		top_padding, bottom_padding, left_padding, right_padding, 
+		cv2.BORDER_CONSTANT, value=(0, 0, 0)
+	)
 
-    cv2.imshow("YOLO Detection", frame_padded)
-    cv2.setWindowProperty("YOLO Detection", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+	cv2.imshow("YOLO Detection", frame_padded)
+	cv2.setWindowProperty("YOLO Detection", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+	if cv2.waitKey(1) & 0xFF == ord('q'):
+		break
 
 cap.release()
 cv2.destroyAllWindows()
@@ -155,12 +155,14 @@ cv2.destroyAllWindows()
 		<title>SWEEP - Jugend forscht</title>
 	</head>
 	<body>
-		<header
-			class="p-4 flex justify-between fixed w-full z-50"
-		>
+		<header class="p-4 flex justify-between fixed w-full z-50">
 			<div></div>
 			<a class="" href="#hero">
-				<Image src={sweepLogo} alt="sweep" class="w-48 rounded-2xl p-4 backdrop-blur-2xl border border-white/10" />
+				<Image
+					src={sweepLogo}
+					alt="sweep"
+					class="w-32 md:w-48 rounded-2xl p-4 backdrop-blur-2xl border border-white/10"
+				/>
 			</a>
 			<button
 				onclick="toggleNavigation()"
@@ -189,24 +191,32 @@ cv2.destroyAllWindows()
 				</svg>
 			</button>
 			<div
-			id="navigation"
-				class="fixed top-0 h-screen w-1/3 bg-white border-l-3 border-black border-dotted -right-1/3 overflow-hidden"
+				id="navigation"
+				class="fixed top-0 h-screen w-1/3 md:w-1/3 bg-white border-l-3 border-black border-dotted -right-1/3 overflow-hidden"
 			>
 				<div class="m-20 text-2xl font-medium h-full flex flex-col">
-					{navigationLinks.map((item) => (
-						<a class="py-2 relative w-fit group" href="/#home">{item}<div class="absolute bottom-1 w-full h-1 bg-black rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></div></a>
-					))}
+					{
+						navigationLinks.map((item) => (
+							<a class="py-2 relative w-fit group" href="/#home">
+								{item}
+								<div class="absolute bottom-1 w-full h-1 bg-black rounded-full group-hover:opacity-100 opacity-0 transition-opacity" />
+							</a>
+						))
+					}
 				</div>
 			</div>
 		</header>
-		<section id="hero" class="h-screen w-full grid grid-cols-2">
+		<section
+			id="hero"
+			class="h-screen w-full grid grid-cols-1 md:grid-cols-2"
+		>
 			<div
-				class="mx-8 mt-24 mb-8 border-3 border-dotted flex justify-center items-center"
+				class="mx-4 md:mx-8 mt-24 mb-8 border-3 border-dotted flex justify-center items-center"
 			>
-				<Image src={korpus} alt="" class="w-3xl" />
+				<Image src={korpus} alt="" class="w-full md:w-3xl" />
 			</div>
-			<div class="my-auto mx-24">
-				<h1 class="font-bit text-8xl">SWEEP</h1>
+			<div class="my-auto mx-4 md:mx-24">
+				<h1 class="font-bit text-6xl md:text-8xl">SWEEP</h1>
 				<p class="text-sm">
 					<span class="underline">S</span>mart <span class="underline"
 						>W</span
@@ -237,7 +247,7 @@ cv2.destroyAllWindows()
 					Entwickelt von Roland Jindra und Jonas Koch.
 				</p>
 				<p class="mt-8 text-sm text-black/60">Gefördert von</p>
-				<div class="flex gap-12 items-center">
+				<div class="flex gap-4 md:gap-12 items-center flex-wrap">
 					<a
 						class="hover:grayscale-50 transition"
 						href="https://www.jugend-forscht-nrw.de/"
@@ -246,7 +256,7 @@ cv2.destroyAllWindows()
 						<Image
 							src={jugendforscht}
 							alt="Jugend forscht"
-							class="w-62"
+							class="w-32 md:w-62"
 						/>
 					</a>
 					<a
@@ -257,7 +267,7 @@ cv2.destroyAllWindows()
 						<Image
 							src={avhg}
 							alt="Alexander-von-Humboldt-Gymnasium Neuss"
-							class="w-62"
+							class="w-32 md:w-62"
 						/>
 					</a>
 				</div>
@@ -265,14 +275,14 @@ cv2.destroyAllWindows()
 		</section>
 		<section
 			id="ideenfindung"
-			class="py-4 w-full grid grid-cols-2 grid-rows-2 px-8"
+			class="py-4 w-full grid grid-cols-1 md:grid-cols-2 grid-rows-2 px-4 md:px-8"
 		>
 			<div
-				class="flex flex-col text-center gap-8 py-12 px-16 border-t-3 border-l-3 border-dotted"
+				class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 border-l-3 border-dotted"
 			>
-				<h1 class="font-bit text-6xl uppercase relative">
+				<h1 class="font-bit text-4xl md:text-6xl uppercase relative">
 					<span
-						class="absolute -right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-10xl"
+						class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
 						>#1</span
 					>Motivation
 				</h1>
@@ -316,11 +326,11 @@ cv2.destroyAllWindows()
 				>
 			</div>
 			<div
-				class="flex flex-col text-center gap-8 py-12 px-16 border-t-3 border-r-3 border-l-3 border-dotted"
+				class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 border-r-3 border-l-3 border-dotted"
 			>
-				<h1 class="font-bit text-6xl uppercase relative">
+				<h1 class="font-bit text-4xl md:text-6xl uppercase relative">
 					<span
-						class="absolute -right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-10xl"
+						class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
 						>#2</span
 					>Aufbau
 				</h1>
@@ -346,11 +356,11 @@ cv2.destroyAllWindows()
 				</p>
 			</div>
 			<div
-				class="flex flex-col text-center gap-8 py-12 px-16 border-t-3 border-l-3 border-b-3 border-dotted"
+				class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 border-l-3 border-b-3 border-dotted"
 			>
-				<h1 class="font-bit text-6xl uppercase relative">
+				<h1 class="font-bit text-4xl md:text-6xl uppercase relative">
 					<span
-						class="absolute -right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-10xl"
+						class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
 						>#3</span
 					>KI
 				</h1>
@@ -373,7 +383,7 @@ cv2.destroyAllWindows()
 					Roboter in seiner Arbeitsweise effizient, zuverlässig und
 					weitgehend autonom.
 				</p>
-				<div class="flex gap-4 items-center">
+				<div class="flex gap-4 items-center flex-wrap">
 					<a
 						href="https://github.com/ultralytics/ultralytics"
 						target="_blank"
@@ -419,11 +429,11 @@ cv2.destroyAllWindows()
 				</div>
 			</div>
 			<div
-				class="flex flex-col text-center gap-8 py-12 px-16 border-3 border-dotted"
+				class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-3 border-dotted"
 			>
-				<h1 class="font-bit text-6xl uppercase relative">
+				<h1 class="font-bit text-4xl md:text-6xl uppercase relative">
 					<span
-						class="absolute -right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-10xl"
+						class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
 						>#4</span
 					>Ausblick
 				</h1>
@@ -448,8 +458,12 @@ cv2.destroyAllWindows()
 				</p>
 			</div>
 		</section>
-		<section class="px-36 py-24">
-			<h1 class="font-bit text-6xl uppercase mb-12 text-center">Code</h1>
+		<section class="px-4 md:px-36 py-24">
+			<h1
+				class="font-bit text-4xl md:text-6xl uppercase mb-12 text-center"
+			>
+				Code
+			</h1>
 			<div class="flex flex-col border border-black/10 rounded-2xl">
 				<div
 					class="py-4 px-5 bg-black/5 flex items-center rounded-2xl gap-2"
@@ -505,7 +519,7 @@ cv2.destroyAllWindows()
 							>
 								<path
 									fill-rule="evenodd"
-									d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
+									d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 0 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
 									clip-rule="evenodd"></path>
 							</svg>
 						</button>
@@ -520,16 +534,16 @@ cv2.destroyAllWindows()
 			</div>
 		</section>
 		<section
-			class="py-12 flex flex-col justify-center items-center border-t-3 border-b-3 border-dotted gap-12"
+			class="py-12 flex flex-col justify-center items-center border-t-3 border-b-3 border-dotted gap-12 px-4"
 		>
-			<h1 class="font-bit text-6xl uppercase text-center">
+			<h1 class="font-bit text-4xl md:text-6xl uppercase text-center">
 				Die Projektarbeit
 			</h1>
 			<p class="max-w-3xl text-center">
 				Unsere ausführliche Projektarbeit zu SWEEP als PDF.
 			</p>
 			<a
-				class="px-4 py-2 bg-blue-500 text-blue-50 rounded-full text-xl hover:bg-blue-600 border border-black/5 transition flex items-center gap-1"
+				class="px-4 py-2 bg-blue-500 text-blue-50 rounded-full text-lg md:text-xl hover:bg-blue-600 border border-black/5 transition flex items-center gap-1"
 				href="/sweep-web/SWEEP.pdf"
 				target="_blank"
 				>SWEEP.pdf<svg
@@ -548,28 +562,33 @@ cv2.destroyAllWindows()
 			</a>
 		</section>
 		<footer
-			class="py-12 px-18 mt-12 w-full bg-black text-white flex flex-col gap-24"
+			class="py-12 px-4 md:px-18 mt-12 w-full bg-black text-white flex flex-col gap-24"
 		>
 			<div class="w-fit">
 				<a href="#hero"
 					><Image
 						src={sweepLogo}
 						alt="sweep"
-						class="w-64 invert"
+						class="w-32 md:w-64 invert"
 					/></a
 				>
 			</div>
-			<div class="w-full flex items-baseline-last justify-between">
+			<div
+				class="w-full flex flex-col md:flex-row items-baseline justify-between gap-8"
+			>
 				<a href="https://www.jugend-forscht-nrw.de/" target="_blank">
 					<Image
 						src={jugendforschtsticker}
 						alt="Jugend forscht"
-						class="w-62 rounded-xl"
+						class="w-32 md:w-62 rounded-xl"
 					/>
 				</a>
-				<div class="flex flex-col gap-2 text-right items-end font-mono">
+				<p>© 2025 SWEEP</p>
+				<div
+					class="flex flex-col gap-2 text-left md:text-right items-start md:items-end font-mono"
+				>
 					<p>Logodesign von Lisa Moritz</p>
-					<p class="flex gap-3">
+					<p class="flex flex-col md:flex-row gap-3">
 						Webdesign von <a
 							href="https://github.com/qizzle"
 							target="_blank"
@@ -610,12 +629,12 @@ cv2.destroyAllWindows()
 	}
 
 	function toggleNavigation() {
-		const navigationButton = document.querySelector("#navigationButton")
-		const navigation = document.querySelector("#navigation")
+		const navigationButton = document.querySelector("#navigationButton");
+		const navigation = document.querySelector("#navigation");
 		if (navigation) {
-			navigation.classList.toggle("-right-1/3")
-			navigation.classList.toggle("right-0")
-			navigationButton.classList.toggle("rotate-90")
+			navigation.classList.toggle("-right-1/3");
+			navigation.classList.toggle("right-0");
+			navigationButton.classList.toggle("rotate-90");
 		}
 	}
 </script>
