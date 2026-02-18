@@ -1,6 +1,8 @@
 ---
+/*
+	This is propably the most cluttered code you will ever see. I apologize for that, but I had to do it like this to meet the deadline.
+*/
 import { Image } from "astro:assets";
-// @ts-ignore: Component exists
 import { Code } from "astro:components";
 import "../styles/global.css";
 import "@fontsource/geist";
@@ -11,17 +13,19 @@ import "@fontsource/geist-mono";
 import sweepLogo from "../assets/sweep.svg";
 import korpus from "../assets/korpus.png";
 import jugendforscht from "../assets/jugendforscht.svg";
-import jugendforschtsticker from "../assets/jugendforschtsticker.jpeg";
 import avhg from "../assets/avhg.png";
 
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+
 const navigationLinks = [
-	["Das Projekt", ""],
-	["Über uns", ""],
-	["Dokumentation", ""],
-	["FAQ", ""],
-	["Über Jugend forscht", ""],
-	["Jugend forscht am AvH", ""],
-	["Unterstützung", ""],
+  ["Das Projekt", "/sweep-web/projekt"],
+  ["Über uns", "/sweep-web/ueber-uns"],
+  ["Dokumentation", "/sweep-web/dokumentation"],
+  ["FAQ", "/sweep-web/faq"],
+  ["Über Jugend forscht", "/sweep-web/ueber-jugend"],
+  ["Jugend forscht am AvH", "/sweep-web/jugend-avh"],
+  ["Unterstützung", "/sweep-web/unterstuetzung"],
 ];
 
 const code = `import cv2
@@ -147,494 +151,367 @@ cv2.destroyAllWindows()
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>SWEEP - Jugend forscht</title>
-	</head>
-	<body>
-		<header class="p-4 flex justify-between fixed w-full z-50">
-			<div></div>
-			<a class="" href="#hero">
-				<Image
-					src={sweepLogo}
-					alt="sweep"
-					class="w-32 md:w-48 rounded-2xl p-4 backdrop-blur-2xl border border-white/10"
-				/>
-			</a>
-			<button
-				onclick="toggleNavigation()"
-				class="cursor-pointer p-3 z-40 transition-transform opacity-0 md:opacity-100"
-				id="navigationButton"
-			>
-				<svg
-					fill="#000000"
-					version="1.1"
-					id="Capa_1"
-					xmlns="http://www.w3.org/2000/svg"
-					xmlns:xlink="http://www.w3.org/1999/xlink"
-					width="800px"
-					height="800px"
-					class="size-3.5"
-					viewBox="0 0 24.75 24.75"
-					xml:space="preserve"
-				>
-					<g>
-						<path
-							d="M0,3.875c0-1.104,0.896-2,2-2h20.75c1.104,0,2,0.896,2,2s-0.896,2-2,2H2C0.896,5.875,0,4.979,0,3.875z M22.75,10.375H2
-		c-1.104,0-2,0.896-2,2c0,1.104,0.896,2,2,2h20.75c1.104,0,2-0.896,2-2C24.75,11.271,23.855,10.375,22.75,10.375z M22.75,18.875H2
-		c-1.104,0-2,0.896-2,2s0.896,2,2,2h20.75c1.104,0,2-0.896,2-2S23.855,18.875,22.75,18.875z"
-						></path>
-					</g>
-				</svg>
-			</button>
-			<div
-				id="navigation"
-				class="fixed top-0 h-screen w-1/3 md:w-1/3 bg-white border-l-3 border-black border-dotted -right-1/3 overflow-hidden"
-			>
-				<div class="m-20 text-2xl font-medium h-full flex flex-col">
-					{
-						navigationLinks.map((item) => (
-							<a class="py-2 relative w-fit group" href="/#home">
-								{item}
-								<div class="absolute bottom-1 w-full h-1 bg-black rounded-full group-hover:opacity-100 opacity-0 transition-opacity" />
-							</a>
-						))
-					}
-				</div>
-			</div>
-		</header>
-		<section
-			id="hero"
-			class="h-screen w-full grid grid-cols-1 md:grid-cols-2"
-		>
-			<div
-				class="mx-4 md:mx-8 mt-24 mb-8 border-3 border-dotted flex justify-center items-center"
-			>
-				<Image src={korpus} alt="" class="w-full md:w-3xl" />
-			</div>
-			<div class="my-auto mx-4 md:mx-24">
-				<h1 class="font-bit text-6xl md:text-8xl">SWEEP</h1>
-				<p class="text-sm">
-					<span class="underline">S</span>mart <span class="underline"
-						>W</span
-					>aste <span class="underline">E</span>limination & <span
-						class="underline">E</span
-					>co
-					<span class="underline">P</span>rotection
-				</p>
-				<p class="mt-8 mb-4 text-lg tracking-tight">
-					Ein intelligenter Müllsammelroboter für Grünflächen und
-					öffentliche Grünanlagen.
-				</p>
-				<p class="flex items-center gap-1.5">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 16 16"
-						fill="currentColor"
-						class="size-4"
-					>
-						<path
-							d="M7.702 1.368a.75.75 0 0 1 .597 0c2.098.91 4.105 1.99 6.004 3.223a.75.75 0 0 1-.194 1.348A34.27 34.27 0 0 0 8.341 8.25a.75.75 0 0 1-.682 0c-.625-.32-1.262-.62-1.909-.901v-.542a36.878 36.878 0 0 1 2.568-1.33.75.75 0 0 0-.636-1.357 38.39 38.39 0 0 0-3.06 1.605.75.75 0 0 0-.372.648v.365c-.773-.294-1.56-.56-2.359-.8a.75.75 0 0 1-.194-1.347 40.901 40.901 0 0 1 6.005-3.223ZM4.25 8.348c-.53-.212-1.067-.411-1.611-.596a40.973 40.973 0 0 0-.418 2.97.75.75 0 0 0 .474.776c.175.068.35.138.524.21a5.544 5.544 0 0 1-.58.681.75.75 0 1 0 1.06 1.06c.35-.349.655-.726.915-1.124a29.282 29.282 0 0 0-1.395-.617A5.483 5.483 0 0 0 4.25 8.5v-.152Z"
-						></path>
-						<path
-							d="M7.603 13.96c-.96-.6-1.958-1.147-2.989-1.635a6.981 6.981 0 0 0 1.12-3.341c.419.192.834.393 1.244.602a2.25 2.25 0 0 0 2.045 0 32.787 32.787 0 0 1 4.338-1.834c.175.978.315 1.969.419 2.97a.75.75 0 0 1-.474.776 29.385 29.385 0 0 0-4.909 2.461.75.75 0 0 1-.794 0Z"
-						></path>
-					</svg>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>SWEEP - Jugend forscht</title>
+  </head>
+  <>
+    <Header navigationLinks={navigationLinks} />
+    <section id="hero" class="h-screen w-full grid grid-cols-1 md:grid-cols-2">
+      <div
+        class="mx-4 md:mx-8 mt-24 mb-8 border-3 border-dotted flex justify-center items-center"
+      >
+        <Image src={korpus} alt="" class="w-full md:w-3xl" />
+      </div>
+      <div class="my-auto mx-4 md:mx-24">
+        <h1 class="font-bit text-6xl md:text-8xl">SWEEP</h1>
+        <p class="text-sm">
+          <span class="underline">S</span>mart <span class="underline">W</span
+          >aste <span class="underline">E</span>limination & <span
+            class="underline">E</span
+          >co
+          <span class="underline">P</span>rotection
+        </p>
+        <p class="mt-8 mb-4 text-lg tracking-tight">
+          Ein intelligenter Müllsammelroboter für Grünflächen und öffentliche
+          Grünanlagen.
+        </p>
+        <p class="flex items-center gap-1.5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="size-4"
+          >
+            <path
+              d="M7.702 1.368a.75.75 0 0 1 .597 0c2.098.91 4.105 1.99 6.004 3.223a.75.75 0 0 1-.194 1.348A34.27 34.27 0 0 0 8.341 8.25a.75.75 0 0 1-.682 0c-.625-.32-1.262-.62-1.909-.901v-.542a36.878 36.878 0 0 1 2.568-1.33.75.75 0 0 0-.636-1.357 38.39 38.39 0 0 0-3.06 1.605.75.75 0 0 0-.372.648v.365c-.773-.294-1.56-.56-2.359-.8a.75.75 0 0 1-.194-1.347 40.901 40.901 0 0 1 6.005-3.223ZM4.25 8.348c-.53-.212-1.067-.411-1.611-.596a40.973 40.973 0 0 0-.418 2.97.75.75 0 0 0 .474.776c.175.068.35.138.524.21a5.544 5.544 0 0 1-.58.681.75.75 0 1 0 1.06 1.06c.35-.349.655-.726.915-1.124a29.282 29.282 0 0 0-1.395-.617A5.483 5.483 0 0 0 4.25 8.5v-.152Z"
+            ></path>
+            <path
+              d="M7.603 13.96c-.96-.6-1.958-1.147-2.989-1.635a6.981 6.981 0 0 0 1.12-3.341c.419.192.834.393 1.244.602a2.25 2.25 0 0 0 2.045 0 32.787 32.787 0 0 1 4.338-1.834c.175.978.315 1.969.419 2.97a.75.75 0 0 1-.474.776 29.385 29.385 0 0 0-4.909 2.461.75.75 0 0 1-.794 0Z"
+            ></path>
+          </svg>
 
-					Entwickelt von Roland Jindra und Jonas Koch.
-				</p>
-				<p class="mt-8 text-sm text-black/60">Gefördert von</p>
-				<div class="flex gap-4 md:gap-12 items-center flex-wrap">
-					<a
-						class="hover:grayscale-50 transition"
-						href="https://www.jugend-forscht-nrw.de/"
-						target="_blank"
-					>
-						<Image
-							src={jugendforscht}
-							alt="Jugend forscht"
-							class="w-32 md:w-62"
-						/>
-					</a>
-					<a
-						class="hover:grayscale-50 transition"
-						href="https://www.avhgneuss.de/"
-						target="_blank"
-					>
-						<Image
-							src={avhg}
-							alt="Alexander-von-Humboldt-Gymnasium Neuss"
-							class="w-32 md:w-62"
-						/>
-					</a>
-				</div>
-			</div>
-		</section>
-		<section
-			id="ideenfindung"
-			class="py-4 w-full grid grid-cols-1 md:grid-cols-2 grid-rows-2 px-0 md:px-8"
-		>
-			<div
-				class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 md:border-l-3 border-dotted"
-			>
-				<h1 class="font-bit text-4xl md:text-6xl uppercase relative">
-					<span
-						class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
-						>#1</span
-					>Motivation
-				</h1>
-				<p class="text-base max-w-3xl leading-relaxed text-left">
-					Ein sehr markantes Problem in unserer modernen Gesellschaft
-					ist Müll. <span class="underline"
-						>Wir verbrauchen in Deutschland jede Stunde 320.000
-						Einweg-Becher.</span
-					> Viele davon landen in unserer Umwelt. Grünanlagen, Parks und
-					Wiesen müssen konstant gesäubert und abgeräumt werden, damit
-					dieser Müll keine Gefahr für die Tier- und Pflanzenwelt darzustellt.
-					Wir haben uns diesem Problem gewidmet. Dazu entwickelten wir
-					ein Konzept für einen Müllsammelroboter, der mithilfe von künstlicher
-					Intelligenz dazu in der Lage sein soll, Müll auf Wiesen zu erkennen,
-					von anderen Stoffen zu unterscheiden und anschließend mit Hilfe
-					verschiedenster Mechanismen aufzusammeln. Durch jene Abläufe
-					soll unserer Roboter künftig und in einer weiterentwickelten
-					Form dazu in der Lage sein, völlig autonom auf befahrbaren Grünflächen
-					wie Parks und Wiesen, Müll zu erkennen und selbstständig aufzusammeln.
-				</p>
-				<a
-					href="https://www.bundesumweltministerium.de/faq/wie-viele-einweg-becher-werden-jaehrlich-verbraucht-wie-viele-landen-davon-in-der-umwelt"
-					target="_blank"
-					class="text-left flex items-center gap-1.5 w-fit px-2 py-1 border border-black/10 bg-black/5 rounded-full hover:bg-black/10 transition"
-					><svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 16 16"
-						fill="currentColor"
-						class="size-4"
-					>
-						<path
-							fill-rule="evenodd"
-							d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z"
-							clip-rule="evenodd"></path>
-						<path
-							fill-rule="evenodd"
-							d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z"
-							clip-rule="evenodd"></path>
-					</svg>
-					Quelle</a
-				>
-			</div>
-			<div
-				class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 md:border-r-3 md:border-l-3 border-dotted"
-			>
-				<h1 class="font-bit text-4xl md:text-6xl uppercase relative">
-					<span
-						class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
-						>#2</span
-					>Aufbau
-				</h1>
-				<p class="text-base max-w-3xl leading-relaxed text-left">
-					SWEEP ist modular aufgebaut und speziell für unebenes
-					Gelände konzipiert. Ein kettenbetriebenes Fahrgestell sorgt
-					für Stabilität, während ein Aufnahmesystem aus Zacken und
-					Bürsten den Müll kontrolliert in das Innere befördert. Dort
-					transportiert ein Förderband die Abfälle in einen
-					Sammelbehälter, der mit handelsüblichen Müllbeuteln
-					ausgestattet werden kann. Herzstück der Steuerung ist der
-					Jetson Orin Nano Super, ein leistungsstarker Microcomputer,
-					der die Bildanalyse durchführt und die Motoren präzise
-					ansteuert. Für den Antrieb werden robuste Gleichstrommotoren
-					genutzt, kleinere Motoren treiben Bürsten und Förderband an.
-					Die Stromversorgung erfolgt über eine langlebige Batterie
-					mit integriertem Spannungswandler. Ergänzend sind Kameras
-					und Sensoren geplant, die Navigation, Hinderniserkennung und
-					Müllidentifikation ermöglichen. Durch diese Kombination
-					entsteht ein autonomes System, das Müll zuverlässig erkennt,
-					aufnimmt und transportiert - eine technische Basis für ein
-					effizientes Umweltprojekt.
-				</p>
-			</div>
-			<div
-				class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 md:border-l-3 md:border-b-3 border-dotted"
-			>
-				<h1 class="font-bit text-4xl md:text-6xl uppercase relative">
-					<span
-						class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
-						>#3</span
-					>KI
-				</h1>
-				<p class="text-base max-w-3xl leading-relaxed text-left">
-					Ein zentrales Element von SWEEP ist die künstliche
-					Intelligenz, die den Roboter in seiner Arbeit unterstützt.
-					Mit einer Kamera nimmt das System die Umgebung in Echtzeit
-					auf. Die KI analysiert die Bilder und erkennt Müll anhand
-					von Form, Farbe und Reflexion. Grundlage ist das Modell
-					„YOLO“, das wir mit dem Datenset „TACO“ speziell auf
-					Umweltsituationen trainiert haben. Sobald Müllobjekte
-					identifiziert sind, werden deren Koordinaten an das interne
-					Steuersystem weitergegeben. Dieses richtet den Roboter
-					präzise aus, fährt ihn zum Abfall und aktiviert erst dann
-					Bürsten und Förderband. Dadurch wird Energie gespart und
-					Fehlaufnahmen werden reduziert. Zusätzlich sind Sensoren
-					vorgesehen, die Hindernisse erkennen, Sicherheitsabstände
-					einhalten und eine automatische Umfahrung ermöglichen. Das
-					Zusammenspiel von KI, Motorsteuerung und Mechanik macht den
-					Roboter in seiner Arbeitsweise effizient, zuverlässig und
-					weitgehend autonom.
-				</p>
-				<div class="flex gap-4 items-center flex-wrap">
-					<a
-						href="https://github.com/ultralytics/ultralytics"
-						target="_blank"
-						class="text-left flex items-center gap-1.5 w-fit px-2 py-1 border border-black/10 bg-black/5 rounded-full hover:bg-black/10 transition"
-						><svg
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 16 16"
-							fill="currentColor"
-							class="size-4"
-						>
-							<path
-								fill-rule="evenodd"
-								d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z"
-								clip-rule="evenodd"></path>
-							<path
-								fill-rule="evenodd"
-								d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z"
-								clip-rule="evenodd"></path>
-						</svg>
-						YOLO</a
-					>
-					<a
-						href="http://tacodataset.org/"
-						target="_blank"
-						class="text-left flex items-center gap-1.5 w-fit px-2 py-1 border border-black/10 bg-black/5 rounded-full hover:bg-black/10 transition"
-						><svg
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 16 16"
-							fill="currentColor"
-							class="size-4"
-						>
-							<path
-								fill-rule="evenodd"
-								d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z"
-								clip-rule="evenodd"></path>
-							<path
-								fill-rule="evenodd"
-								d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z"
-								clip-rule="evenodd"></path>
-						</svg>
-						TACO</a
-					>
-				</div>
-			</div>
-			<div
-				class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 border-b-3 md:border-3 border-dotted"
-			>
-				<h1 class="font-bit text-4xl md:text-6xl uppercase relative">
-					<span
-						class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
-						>#4</span
-					>Ausblick
-				</h1>
-				<p class="text-base max-w-3xl leading-relaxed text-left">
-					Die Entwicklung von SWEEP brachte zahlreiche
-					Herausforderungen mit sich. Besonders die Finanzierung war
-					anspruchsvoll, da hochwertige Motoren, Sensoren und Computer
-					hohe Kosten verursachten. Erst durch eine Förderung konnten
-					wir alle benötigten Komponenten beschaffen. Auch der Faktor
-					Zeit stellte eine Hürde dar: Viele Bauteile waren erst kurz
-					vor Abgabe verfügbar, sodass die praktische Umsetzung nur
-					teilweise erfolgte. Dennoch konnten wir zentrale Konzepte
-					entwickeln und die KI erfolgreich trainieren. Für die
-					Zukunft planen wir die Fertigstellung der Software,
-					Testläufe auf realen Grünflächen und den Einsatz weiterer
-					Sensorik wie GPS oder Infrarot. Dadurch soll der Roboter
-					effizientere Routen fahren, selbstständig zurückkehren und
-					detaillierte Daten über den gesammelten Müll liefern.
-					Langfristig könnte SWEEP so eine nachhaltige, kostengünstige
-					und personalarme Lösung für die Reinigung öffentlicher
-					Grünanlagen darstellen.
-				</p>
-			</div>
-		</section>
-		<section class="px-4 md:px-36 py-24">
-			<h1
-				class="font-bit text-4xl md:text-6xl uppercase mb-12 text-center"
-			>
-				Code
-			</h1>
-			<div class="flex flex-col border border-black/10 rounded-2xl">
-				<div
-					class="py-4 px-5 bg-black/5 flex items-center rounded-2xl gap-2"
-					id="codediv"
-				>
-					<svg
-						class="size-4"
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="16 16 32 32"
-						><path
-							fill="url(#python__a)"
-							d="M31.885 16c-8.124 0-7.617 3.523-7.617 3.523l.01 3.65h7.752v1.095H21.197S16 23.678 16 31.876c0 8.196 4.537 7.906 4.537 7.906h2.708v-3.804s-.146-4.537 4.465-4.537h7.688s4.32.07 4.32-4.175v-7.019S40.374 16 31.885 16zm-4.275 2.454a1.394 1.394 0 1 1 0 2.79 1.393 1.393 0 0 1-1.395-1.395c0-.771.624-1.395 1.395-1.395z"
-						></path><path
-							fill="url(#python__b)"
-							d="M32.115 47.833c8.124 0 7.617-3.523 7.617-3.523l-.01-3.65H31.97v-1.095h10.832S48 40.155 48 31.958c0-8.197-4.537-7.906-4.537-7.906h-2.708v3.803s.146 4.537-4.465 4.537h-7.688s-4.32-.07-4.32 4.175v7.019s-.656 4.247 7.833 4.247zm4.275-2.454a1.393 1.393 0 0 1-1.395-1.395 1.394 1.394 0 1 1 1.395 1.395z"
-						></path><defs
-							><linearGradient
-								id="python__a"
-								x1="19.075"
-								x2="34.898"
-								y1="18.782"
-								y2="34.658"
-								gradientUnits="userSpaceOnUse"
-								><stop stop-color="#387EB8"></stop><stop
-									offset="1"
-									stop-color="#366994"></stop></linearGradient
-							><linearGradient
-								id="python__b"
-								x1="28.809"
-								x2="45.803"
-								y1="28.882"
-								y2="45.163"
-								gradientUnits="userSpaceOnUse"
-								><stop stop-color="#FFE052"></stop><stop
-									offset="1"
-									stop-color="#FFC331"></stop></linearGradient
-							></defs
-						></svg
-					>
-					<div class="flex items-center justify-between w-full">
-						<p class="font-mono select-none">main.py</p>
-						<button
-							onclick="toggleAccordion()"
-							id="toggleButton"
-							class="p-2 select-auto rounded-full bg-black/5 border border-black/10 hover:bg-black/10 transition cursor-pointer"
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 16 16"
-								fill="currentColor"
-								class="size-4"
-							>
-								<path
-									fill-rule="evenodd"
-									d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 0 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
-									clip-rule="evenodd"></path>
-							</svg>
-						</button>
-					</div>
-				</div>
-				<Code
-					id="codeblock"
-					class="px-4 py-6 rounded-b-2xl hidden"
-					code={code}
-					lang="py"
-				/>
-			</div>
-		</section>
-		<section
-			class="py-12 flex flex-col justify-center items-center border-t-3 border-b-3 border-dotted gap-12 px-4"
-		>
-			<h1 class="font-bit text-4xl md:text-6xl uppercase text-center">
-				Die Projektarbeit
-			</h1>
-			<p class="max-w-3xl text-center">
-				Unsere ausführliche Projektarbeit zu SWEEP als PDF.
-			</p>
-			<a
-				class="px-4 py-2 bg-blue-500 text-blue-50 rounded-full text-lg md:text-xl hover:bg-blue-600 border border-black/5 transition flex items-center gap-1"
-				href="/sweep-web/SWEEP.pdf"
-				target="_blank"
-				>SWEEP.pdf<svg
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 16 16"
-					fill="currentColor"
-					class="size-5"
-				>
-					<path
-						d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72Z"
-					></path>
-					<path
-						d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"
-					></path>
-				</svg>
-			</a>
-		</section>
-		<footer
-			class="py-12 px-4 md:px-18 mt-12 w-full bg-black text-white flex flex-col gap-24"
-		>
-			<div class="w-fit">
-				<a href="#hero"
-					><Image
-						src={sweepLogo}
-						alt="sweep"
-						class="w-32 md:w-64 invert"
-					/></a
-				>
-			</div>
-			<div
-				class="w-full flex flex-col md:flex-row items-baseline md:items-end justify-between gap-8"
-			>
-				<a href="https://www.jugend-forscht-nrw.de/" target="_blank">
-					<Image
-						src={jugendforschtsticker}
-						alt="Jugend forscht"
-						class="w-32 md:w-62 rounded-xl"
-					/>
-				</a>
-				<p>© 2025 SWEEP</p>
-				<div
-					class="flex flex-col gap-2 text-left md:text-right items-start md:items-end font-mono"
-				>
-					<p>Logodesign von Lisa Moritz</p>
-					<p class="flex gap-3">
-						Webdesign von <a
-							href="https://github.com/qizzle"
-							target="_blank"
-							class="flex hover:underline gap-0.5"
-							>Dimitri Bartsch<svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 16 16"
-								fill="currentColor"
-								class="size-4"
-							>
-								<path
-									fill-rule="evenodd"
-									d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z"
-									clip-rule="evenodd"></path>
-							</svg>
-						</a>
-						<p>
-							<span class="font-bit text-lg">SWEEP</span> von Roland
-							Jindra und Jonas Koch
-						</p>
-					</p>
-				</div>
-			</div>
-		</footer>
-	</body>
+          Entwickelt von Roland Jindra und Jonas Koch.
+        </p>
+        <p class="mt-8 text-sm text-black/60">Gefördert von</p>
+        <div class="flex gap-4 md:gap-12 items-center flex-wrap">
+          <a
+            class="hover:grayscale-50 transition"
+            href="https://www.jugend-forscht-nrw.de/"
+            target="_blank"
+          >
+            <Image
+              src={jugendforscht}
+              alt="Jugend forscht"
+              class="w-32 md:w-62"
+            />
+          </a>
+          <a
+            class="hover:grayscale-50 transition"
+            href="https://www.avhgneuss.de/"
+            target="_blank"
+          >
+            <Image
+              src={avhg}
+              alt="Alexander-von-Humboldt-Gymnasium Neuss"
+              class="w-32 md:w-62"
+            />
+          </a>
+        </div>
+      </div>
+    </section>
+    <section
+      id="ideenfindung"
+      class="py-4 w-full grid grid-cols-1 md:grid-cols-2 grid-rows-2 px-0 md:px-8"
+    >
+      <div
+        class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 md:border-l-3 border-dotted"
+      >
+        <h1 class="font-bit text-4xl md:text-6xl uppercase relative">
+          <span
+            class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
+            >#1</span
+          >Motivation
+        </h1>
+        <p class="text-base max-w-3xl leading-relaxed text-left">
+          Ein sehr markantes Problem in unserer modernen Gesellschaft ist Müll. <span
+            class="underline"
+            >Wir verbrauchen in Deutschland jede Stunde 320.000 Einweg-Becher.</span
+          > Viele davon landen in unserer Umwelt. Grünanlagen, Parks und Wiesen müssen
+          konstant gesäubert und abgeräumt werden, damit dieser Müll keine Gefahr
+          für die Tier- und Pflanzenwelt darzustellt. Wir haben uns diesem Problem
+          gewidmet. Dazu entwickelten wir ein Konzept für einen Müllsammelroboter,
+          der mithilfe von künstlicher Intelligenz dazu in der Lage sein soll, Müll
+          auf Wiesen zu erkennen, von anderen Stoffen zu unterscheiden und anschließend
+          mit Hilfe verschiedenster Mechanismen aufzusammeln. Durch jene Abläufe soll
+          unserer Roboter künftig und in einer weiterentwickelten Form dazu in der
+          Lage sein, völlig autonom auf befahrbaren Grünflächen wie Parks und Wiesen,
+          Müll zu erkennen und selbstständig aufzusammeln.
+        </p>
+        <a
+          href="https://www.bundesumweltministerium.de/faq/wie-viele-einweg-becher-werden-jaehrlich-verbraucht-wie-viele-landen-davon-in-der-umwelt"
+          target="_blank"
+          class="text-left flex items-center gap-1.5 w-fit px-2 py-1 border border-black/10 bg-black/5 rounded-full hover:bg-black/10 transition"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="size-4"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z"
+              clip-rule="evenodd"></path>
+            <path
+              fill-rule="evenodd"
+              d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z"
+              clip-rule="evenodd"></path>
+          </svg>
+          Quelle</a
+        >
+      </div>
+      <div
+        class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 md:border-r-3 md:border-l-3 border-dotted"
+      >
+        <h1 class="font-bit text-4xl md:text-6xl uppercase relative">
+          <span
+            class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
+            >#2</span
+          >Aufbau
+        </h1>
+        <p class="text-base max-w-3xl leading-relaxed text-left">
+          SWEEP ist modular aufgebaut und speziell für unebenes Gelände
+          konzipiert. Ein kettenbetriebenes Fahrgestell sorgt für Stabilität,
+          während ein Aufnahmesystem aus Zacken und Bürsten den Müll
+          kontrolliert in das Innere befördert. Dort transportiert ein
+          Förderband die Abfälle in einen Sammelbehälter, der mit
+          handelsüblichen Müllbeuteln ausgestattet werden kann. Herzstück der
+          Steuerung ist der Jetson Orin Nano Super, ein leistungsstarker
+          Microcomputer, der die Bildanalyse durchführt und die Motoren präzise
+          ansteuert. Für den Antrieb werden robuste Gleichstrommotoren genutzt,
+          kleinere Motoren treiben Bürsten und Förderband an. Die
+          Stromversorgung erfolgt über eine langlebige Batterie mit integriertem
+          Spannungswandler. Ergänzend sind Kameras und Sensoren geplant, die
+          Navigation, Hinderniserkennung und Müllidentifikation ermöglichen.
+          Durch diese Kombination entsteht ein autonomes System, das Müll
+          zuverlässig erkennt, aufnimmt und transportiert - eine technische
+          Basis für ein effizientes Umweltprojekt.
+        </p>
+      </div>
+      <div
+        class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 md:border-l-3 md:border-b-3 border-dotted"
+      >
+        <h1 class="font-bit text-4xl md:text-6xl uppercase relative">
+          <span
+            class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
+            >#3</span
+          >KI
+        </h1>
+        <p class="text-base max-w-3xl leading-relaxed text-left">
+          Ein zentrales Element von SWEEP ist die künstliche Intelligenz, die
+          den Roboter in seiner Arbeit unterstützt. Mit einer Kamera nimmt das
+          System die Umgebung in Echtzeit auf. Die KI analysiert die Bilder und
+          erkennt Müll anhand von Form, Farbe und Reflexion. Grundlage ist das
+          Modell „YOLO“, das wir mit dem Datenset „TACO“ speziell auf
+          Umweltsituationen trainiert haben. Sobald Müllobjekte identifiziert
+          sind, werden deren Koordinaten an das interne Steuersystem
+          weitergegeben. Dieses richtet den Roboter präzise aus, fährt ihn zum
+          Abfall und aktiviert erst dann Bürsten und Förderband. Dadurch wird
+          Energie gespart und Fehlaufnahmen werden reduziert. Zusätzlich sind
+          Sensoren vorgesehen, die Hindernisse erkennen, Sicherheitsabstände
+          einhalten und eine automatische Umfahrung ermöglichen. Das
+          Zusammenspiel von KI, Motorsteuerung und Mechanik macht den Roboter in
+          seiner Arbeitsweise effizient, zuverlässig und weitgehend autonom.
+        </p>
+        <div class="flex gap-4 items-center flex-wrap">
+          <a
+            href="https://github.com/ultralytics/ultralytics"
+            target="_blank"
+            class="text-left flex items-center gap-1.5 w-fit px-2 py-1 border border-black/10 bg-black/5 rounded-full hover:bg-black/10 transition"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="size-4"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z"
+                clip-rule="evenodd"></path>
+              <path
+                fill-rule="evenodd"
+                d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z"
+                clip-rule="evenodd"></path>
+            </svg>
+            YOLO</a
+          >
+          <a
+            href="http://tacodataset.org/"
+            target="_blank"
+            class="text-left flex items-center gap-1.5 w-fit px-2 py-1 border border-black/10 bg-black/5 rounded-full hover:bg-black/10 transition"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="size-4"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z"
+                clip-rule="evenodd"></path>
+              <path
+                fill-rule="evenodd"
+                d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z"
+                clip-rule="evenodd"></path>
+            </svg>
+            TACO</a
+          >
+        </div>
+      </div>
+      <div
+        class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 border-b-3 md:border-3 border-dotted"
+      >
+        <h1 class="font-bit text-4xl md:text-6xl uppercase relative">
+          <span
+            class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
+            >#4</span
+          >Ausblick
+        </h1>
+        <p class="text-base max-w-3xl leading-relaxed text-left">
+          Die Entwicklung von SWEEP brachte zahlreiche Herausforderungen mit
+          sich. Besonders die Finanzierung war anspruchsvoll, da hochwertige
+          Motoren, Sensoren und Computer hohe Kosten verursachten. Erst durch
+          eine Förderung konnten wir alle benötigten Komponenten beschaffen.
+          Auch der Faktor Zeit stellte eine Hürde dar: Viele Bauteile waren erst
+          kurz vor Abgabe verfügbar, sodass die praktische Umsetzung nur
+          teilweise erfolgte. Dennoch konnten wir zentrale Konzepte entwickeln
+          und die KI erfolgreich trainieren. Für die Zukunft planen wir die
+          Fertigstellung der Software, Testläufe auf realen Grünflächen und den
+          Einsatz weiterer Sensorik wie GPS oder Infrarot. Dadurch soll der
+          Roboter effizientere Routen fahren, selbstständig zurückkehren und
+          detaillierte Daten über den gesammelten Müll liefern. Langfristig
+          könnte SWEEP so eine nachhaltige, kostengünstige und personalarme
+          Lösung für die Reinigung öffentlicher Grünanlagen darstellen.
+        </p>
+      </div>
+    </section>
+    <section class="px-4 md:px-36 py-24">
+      <h1 class="font-bit text-4xl md:text-6xl uppercase mb-12 text-center">
+        Code
+      </h1>
+      <div class="flex flex-col border border-black/10 rounded-2xl">
+        <div
+          class="py-4 px-5 bg-black/5 flex items-center rounded-2xl gap-2"
+          id="codediv"
+        >
+          <svg
+            class="size-4"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="16 16 32 32"
+            ><path
+              fill="url(#python__a)"
+              d="M31.885 16c-8.124 0-7.617 3.523-7.617 3.523l.01 3.65h7.752v1.095H21.197S16 23.678 16 31.876c0 8.196 4.537 7.906 4.537 7.906h2.708v-3.804s-.146-4.537 4.465-4.537h7.688s4.32.07 4.32-4.175v-7.019S40.374 16 31.885 16zm-4.275 2.454a1.394 1.394 0 1 1 0 2.79 1.393 1.393 0 0 1-1.395-1.395c0-.771.624-1.395 1.395-1.395z"
+            ></path><path
+              fill="url(#python__b)"
+              d="M32.115 47.833c8.124 0 7.617-3.523 7.617-3.523l-.01-3.65H31.97v-1.095h10.832S48 40.155 48 31.958c0-8.197-4.537-7.906-4.537-7.906h-2.708v3.803s.146 4.537-4.465 4.537h-7.688s-4.32-.07-4.32 4.175v7.019s-.656 4.247 7.833 4.247zm4.275-2.454a1.393 1.393 0 0 1-1.395-1.395 1.394 1.394 0 1 1 1.395 1.395z"
+            ></path><defs
+              ><linearGradient
+                id="python__a"
+                x1="19.075"
+                x2="34.898"
+                y1="18.782"
+                y2="34.658"
+                gradientUnits="userSpaceOnUse"
+                ><stop stop-color="#387EB8"></stop><stop
+                  offset="1"
+                  stop-color="#366994"></stop></linearGradient
+              ><linearGradient
+                id="python__b"
+                x1="28.809"
+                x2="45.803"
+                y1="28.882"
+                y2="45.163"
+                gradientUnits="userSpaceOnUse"
+                ><stop stop-color="#FFE052"></stop><stop
+                  offset="1"
+                  stop-color="#FFC331"></stop></linearGradient
+              ></defs
+            ></svg
+          >
+          <div class="flex items-center justify-between w-full">
+            <p class="font-mono select-none">main.py</p>
+            <button
+              onclick="toggleAccordion()"
+              id="toggleButton"
+              class="p-2 select-auto rounded-full bg-black/5 border border-black/10 hover:bg-black/10 transition cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                class="size-4"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 0 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <Code
+          id="codeblock"
+          class="px-4 py-6 rounded-b-2xl hidden"
+          code={code}
+          lang="py"
+        />
+      </div>
+    </section>
+    <section
+      class="py-12 flex flex-col justify-center items-center border-t-3 border-b-3 border-dotted gap-12 px-4"
+    >
+      <h1 class="font-bit text-4xl md:text-6xl uppercase text-center">
+        Die Projektarbeit
+      </h1>
+      <p class="max-w-3xl text-center">
+        Unsere ausführliche Projektarbeit zu SWEEP als PDF.
+      </p>
+      <a
+        class="px-4 py-2 bg-blue-500 text-blue-50 rounded-full text-lg md:text-xl hover:bg-blue-600 border border-black/5 transition flex items-center gap-1"
+        href="/sweep-web/SWEEP.pdf"
+        target="_blank"
+        >SWEEP.pdf<svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          class="size-5"
+        >
+          <path
+            d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72Z"
+          ></path>
+          <path
+            d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"
+          ></path>
+        </svg>
+      </a>
+    </section>
+    <Footer />
+  </>
 </html>
 <script defer>
-	function toggleAccordion() {
-		const codeBlock = document.querySelector("#codeblock");
-		const button = document.querySelector("#toggleButton");
-		const divContainer = document.querySelector("#codediv");
-		if (codeBlock) {
-			codeBlock.classList.toggle("hidden");
-			divContainer.classList.toggle("rounded-2xl");
-			divContainer.classList.toggle("rounded-t-2xl");
-			button.classList.toggle("rotate-180");
-		}
-	}
-
-	function toggleNavigation() {
-		const navigationButton = document.querySelector("#navigationButton");
-		const navigation = document.querySelector("#navigation");
-		if (navigation) {
-			navigation.classList.toggle("-right-1/3");
-			navigation.classList.toggle("right-0");
-			navigationButton.classList.toggle("rotate-90");
-		}
-	}
+  function toggleAccordion() {
+    const codeBlock = document.querySelector("#codeblock");
+    const button = document.querySelector("#toggleButton");
+    const divContainer = document.querySelector("#codediv");
+    if (codeBlock) {
+      codeBlock.classList.toggle("hidden");
+      divContainer.classList.toggle("rounded-2xl");
+      divContainer.classList.toggle("rounded-t-2xl");
+      button.classList.toggle("rotate-180");
+    }
+  }
 </script>

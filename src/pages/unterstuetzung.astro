@@ -1,0 +1,134 @@
+---
+import "../styles/global.css";
+import "@fontsource/geist";
+import "@fontsource/geist/600";
+import "@fontsource/bitcount-grid-single";
+import "@fontsource/geist-mono";
+
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Card from "../components/Card.astro";
+import CardDuo from "../components/CardDuo.astro";
+import CardInline from "../components/CardInline.astro";
+
+import { Image } from "astro:assets";
+
+import jugendforschtsticker from "../assets/jugendforschtsticker.jpeg";
+import neuhausen from "../assets/neuhausen.jpeg";
+import avhfoerder from "../assets/avhfoerder.jpeg";
+
+const navigationLinks = [
+  ["Das Projekt", "/sweep-web/projekt"],
+  ["Über uns", "/sweep-web/ueber-uns"],
+  ["Dokumentation", "/sweep-web/dokumentation"],
+  ["FAQ", "/sweep-web/faq"],
+  ["Über Jugend forscht", "/sweep-web/ueber-jugend"],
+  ["Jugend forscht am AvH", "/sweep-web/jugend-avh"],
+  ["Unterstützung", "/sweep-web/unterstuetzung"],
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>SWEEP - Jugend forscht</title>
+  </head>
+  <body>
+    <Header navigationLinks={navigationLinks} />
+    <section>
+      <h1
+        class="font-bit text-4xl md:text-6xl uppercase mb-8 text-center mt-36"
+      >
+        Unterstützung
+      </h1>
+      <p class="text-center mx-4 md:mx-24 text-lg mb-8">
+        Ohne Förderer wäre S.W.E.E.P. nicht möglich — Dank an alle, die das
+        Projekt tragen.
+      </p>
+
+      <div class="mx-4 md:mx-24 mt-10">
+        <CardDuo
+          headingOne="Finanzierung"
+          headingTwo="Sachmittel"
+          paragraphOne="Jugend forscht Sponsorenpool: Erster zentraler Förderer und Unterstützer. Förderverein des Alexander-von-Humboldt-Gymnasiums Neuss: Zusatzförderung und organisatorische Hilfe."
+          paragraphTwo="Erhaltene Fördersumme (als Entwicklungsbasis): 1.572 € aus dem Sponsorenpool plus 200 € vom Förderverein — diese Mittel ermöglichten die Beschaffung zentraler Komponenten wie Mini-Computer, Motoren, Sensorik und 3D-Druck-Materialien."
+        />
+      </div>
+
+      <div
+        class="my-8 px-12 md:px-24 border-dotted border-t-2 border-b-2 py-8 flex flex-col gap-8"
+      >
+        <CardInline heading="Weitere Unterstützungsformen">
+          Fusion Bildungslizenz und Softwarezugänge wurden kostenfrei für
+          Schülerinnen und Schüler bereitgestellt, wodurch Software-Hürden
+          reduziert wurden. Zusätzlich erhielten wir materielle Hilfe durch
+          Werkzeuge, Werkstattzeiten, 3D-Druck-Kapazitäten und Mentoring durch
+          Lehrkräfte.
+        </CardInline>
+        <CardInline heading="Wie Sie uns unterstützen können">
+          Sponsoring (Sach- oder Geldmittel) für erweiterte Tests, Laborzugang,
+          Prototypoptimierung oder Serienaufbauten. Fachliche Partnerschaften
+          mit kommunalen Entsorgern, Umweltämtern oder Forschungsgruppen.
+          Außerdem helfen Testfelder und Pilotprojekte durch die Bereitstellung
+          geeigneter Grünflächen zur praktischen Erprobung unter Aufsicht.
+        </CardInline>
+      </div>
+
+      <div class="mx-4 md:mx-24 my-12">
+        <div class="">
+          <h1 class="font-bit text-4xl uppercase text-center mb-8">
+            Mit großzügiger Unterstützung durch
+          </h1>
+          <div class="flex w-full gap-4 mb-8">
+            <div class="w-full aspect-[4/3]">
+              <Image
+                src={avhfoerder}
+                alt=""
+                class="w-full h-full object-contain"
+              />
+            </div>
+            <div class="w-full aspect-[4/3]">
+              <Image
+                src={jugendforschtsticker}
+                alt=""
+                class="w-full h-full object-contain"
+              />
+            </div>
+            <div class="w-full aspect-[4/3]">
+              <Image
+                src={neuhausen}
+                alt=""
+                class="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+        </div>
+        <Card heading="Danksagung & Transparenz">
+          Wir danken ausdrücklich dem Sponsorenpool von Jugend forscht und dem
+          Förderverein des AvH. Unser Projekt bleibt gemeinnützig und Open
+          Source — jede Unterstützung wird transparent dokumentiert und fließt
+          direkt in die Weiterentwicklung. Ein besonderer Dank gilt auch dem
+          Ingenieurbüro Neuenhausen, das unser Projekt mit einer finanziellen
+          Unterstützung in Höhe von 300 Euro gefördert hat. Mit diesem Beitrag
+          konnten wir das benötigte Alugestell für unseren Roboter realisieren –
+          eine zentrale Komponente für Stabilität, Modularität und
+          Praxistauglichkeit unseres Systems
+        </Card>
+        <div class="mt-8">
+          <Card heading="Kontakt">
+            Wir freuen uns über Anfragen, Ideen und Kooperationsangebote.
+            Kontaktieren Sie uns gerne über die E-Mail-Adresse <a
+              class="underline"
+              href="mailto:roland.jugendforscht@outlook.com"
+              >roland.jugendforscht@outlook.com</a
+            >.
+          </Card>
+        </div>
+      </div>
+      <Footer />
+    </section>
+  </body>
+</html>

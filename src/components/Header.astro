@@ -1,0 +1,70 @@
+---
+import { Image } from "astro:assets";
+import sweepLogo from "../assets/sweep.svg";
+
+const { navigationLinks } = Astro.props;
+---
+
+<header class="p-4 top-0 flex justify-between fixed w-full z-50">
+  <div></div>
+  <a class="" href="/sweep-web/">
+    <Image
+      src={sweepLogo}
+      alt="sweep"
+      class="w-32 md:w-48 rounded-2xl p-4 backdrop-blur-2xl border border-white/10"
+    />
+  </a>
+  <button
+    onclick="toggleNavigation()"
+    class="cursor-pointer p-3 z-40 transition-transform opacity-0 md:opacity-100"
+    id="navigationButton"
+  >
+    <svg
+      fill="#000000"
+      version="1.1"
+      id="Capa_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      width="800px"
+      height="800px"
+      class="size-3.5"
+      viewBox="0 0 24.75 24.75"
+      xml:space="preserve"
+    >
+      <g>
+        <path
+          d="M0,3.875c0-1.104,0.896-2,2-2h20.75c1.104,0,2,0.896,2,2s-0.896,2-2,2H2C0.896,5.875,0,4.979,0,3.875z M22.75,10.375H2
+		c-1.104,0-2,0.896-2,2c0,1.104,0.896,2,2,2h20.75c1.104,0,2-0.896,2-2C24.75,11.271,23.855,10.375,22.75,10.375z M22.75,18.875H2
+		c-1.104,0-2,0.896-2,2s0.896,2,2,2h20.75c1.104,0,2-0.896,2-2S23.855,18.875,22.75,18.875z"
+        ></path>
+      </g>
+    </svg>
+  </button>
+  <div
+    id="navigation"
+    class="fixed top-0 h-screen w-1/3 md:w-1/3 bg-white border-l-3 border-black border-dotted -right-1/3 overflow-hidden"
+  >
+    <div class="m-20 text-2xl font-medium h-full flex flex-col">
+      {
+        // @ts-ignore
+        navigationLinks.map((item) => (
+          <a class="py-2 relative w-fit group" href={item[1]}>
+            {item[0]}
+            <div class="absolute bottom-1 w-full h-1 bg-black rounded-full group-hover:opacity-100 opacity-0 transition-opacity" />
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</header>
+<script defer>
+  function toggleNavigation() {
+    const navigationButton = document.querySelector("#navigationButton");
+    const navigation = document.querySelector("#navigation");
+    if (navigation) {
+      navigation.classList.toggle("-right-1/3");
+      navigation.classList.toggle("right-0");
+      navigationButton.classList.toggle("rotate-90");
+    }
+  }
+</script>

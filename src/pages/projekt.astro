@@ -1,0 +1,100 @@
+---
+import "../styles/global.css";
+import "@fontsource/geist";
+import "@fontsource/geist/600";
+import "@fontsource/bitcount-grid-single";
+import "@fontsource/geist-mono";
+
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Card from "../components/Card.astro";
+import CardInline from "../components/CardInline.astro";
+import CardDuo from "../components/CardDuo.astro";
+
+const navigationLinks = [
+  ["Das Projekt", "/sweep-web/projekt"],
+  ["Über uns", "/sweep-web/ueber-uns"],
+  ["Dokumentation", "/sweep-web/dokumentation"],
+  ["FAQ", "/sweep-web/faq"],
+  ["Über Jugend forscht", "/sweep-web/ueber-jugend"],
+  ["Jugend forscht am AvH", "/sweep-web/jugend-avh"],
+  ["Unterstützung", "/sweep-web/unterstuetzung"],
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>SWEEP - Jugend forscht</title>
+  </head>
+  <body>
+    <Header navigationLinks={navigationLinks} />
+    <section class="w-full">
+      <h1
+        class="font-bit text-4xl md:text-6xl uppercase mb-12 text-center mt-32"
+      >
+        Das Projekt
+      </h1>
+      <p class="text-lg text-center mx-4 md:mx-20">
+        Ein autonomer Müllsammelroboter für Parks und Grünflächen, der
+        Umweltschutz, robuste Mechanik und moderne KI vereint — entwickelt, um
+        Reinigungskräfte zu entlasten und städtische Grünräume sicherer für
+        Menschen und Tiere zu machen.
+      </p>
+      <div class="m-12">
+        <Card heading="Überblick & Motivation">
+          S.W.E.E.P. entstand aus der Beobachtung: Trotz Reinigungseinsätzen
+          liegen regelmäßig Abfälle auf Wiesen und in städtischen Grünanlagen —
+          Einwegbecher, Verpackungen, Plastikreste. Diese Verschmutzung
+          gefährdet Tiere, belastet Ökosysteme und verschlechtert das Stadtbild.
+          Unser Ziel ist nicht, Menschen zu ersetzen, sondern unangenehme,
+          körperlich belastende oder repetitive Aufgaben zu übernehmen und so
+          die Effektivität der Reinigungsarbeit zu erhöhen.
+        </Card>
+      </div>
+      <h1 class="font-bit text-5xl uppercase mb-2 text-center">
+        Kernfunktionen
+      </h1>
+      <div
+        class="my-8 px-12 border-dotted border-t-2 border-b-2 py-8 flex flex-col gap-8"
+      >
+        <CardInline heading="Müllerkennung per KI"
+          >Live-Kamera(s) analysieren das Kamerabild; ein auf YOLO-basierendes
+          Modell identifiziert Müllobjekte und liefert Koordinaten an die
+          Steuerung.</CardInline
+        >
+        <CardInline heading="Aufnahme & Transport">
+          Kammähnliche Zacken, Motor-betriebene Bürsten und ein internes
+          Förderband befördern den Müll in einen 60-Liter-Sammelbehälter.
+        </CardInline>
+        <CardInline heading="Fortbewegung">
+          Kettengetriebenes Fahrgestell für gute Geländegängigkeit auf Wiese und
+          unbefestigten Wegen.
+        </CardInline>
+        <CardInline heading="Sicherheit">
+          LiDAR-Sensorik, Notabschaltung bei Annäherung von Menschen/Tieren,
+          langsamer Betrieb, physische Schutzverkleidung über sensiblen
+          Mechaniken.
+        </CardInline>
+        <CardInline heading="Betriebsmanagement">
+          Interne Energieversorgung (Batterie 12,8 V / ~100 Ah),
+          Spannungswandler für die Recheneinheit, Steuerung über PCA9682 /
+          Motorcontroller; geplante Features: GPS-Geofence, zweite Kamera,
+          IR-Füllstandssensor.
+        </CardInline>
+      </div>
+    </section>
+    <div class="mx-12">
+      <CardDuo
+        headingOne="Einsatzkonzept"
+        headingTwo="Zukunftsvision"
+        paragraphOne="Geplant ist ein Einsatz unter Aufsicht von Fachpersonal (z. B. AWL Neuss) in städtischen Parks und Grünanlagen. Ziel ist die Arbeitserleichterung für Reinigungskräfte — S.W.E.E.P. soll kantige, nasse, unangenehme oder gesundheitsgefährdende Sammelaufgaben übernehmen und so die Effizienz erhöhen."
+        paragraphTwo="Skalierbarkeit, vernetzter Betrieb mehrerer Einheiten, Integration in kommunale Prozesse und Partnerschaften mit städtischen Entsorgern — parallel suchen wir neue Sponsoren, um die nächste Entwicklungsstufe zu finanzieren und Praxistests in größerem Umfang zu ermöglichen."
+      />
+    </div>
+  </body>
+  <Footer />
+</html>

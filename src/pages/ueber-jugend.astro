@@ -1,0 +1,85 @@
+---
+import { Image } from "astro:assets";
+import "../styles/global.css";
+import "@fontsource/geist";
+import "@fontsource/geist/600";
+import "@fontsource/bitcount-grid-single";
+import "@fontsource/geist-mono";
+
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Card from "../components/Card.astro";
+
+const navigationLinks = [
+  ["Das Projekt", "/sweep-web/projekt"],
+  ["Über uns", "/sweep-web/ueber-uns"],
+  ["Dokumentation", "/sweep-web/dokumentation"],
+  ["FAQ", "/sweep-web/faq"],
+  ["Über Jugend forscht", "/sweep-web/ueber-jugend"],
+  ["Jugend forscht am AvH", "/sweep-web/jugend-avh"],
+  ["Unterstützung", "/sweep-web/unterstuetzung"],
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>SWEEP - Jugend forscht</title>
+  </head>
+  <body>
+    <Header navigationLinks={navigationLinks} />
+    <section class="">
+      <h1 class="font-bit text-6xl uppercase mb-8 text-center mt-36">
+        Über Jugend forscht
+      </h1>
+      <p class="text-center">
+        Die Plattform, die junge Forschende fördert — Erfahrung, Austausch und
+        Sichtbarkeit für technisch-naturwissenschaftliche Projekte.
+      </p>
+      <div class="mx-24 my-8 flex flex-col gap-8">
+        <Card heading="Was ist Jugend forscht?">
+          Jugend forscht ist Deutschlands zentraler Wettbewerb für
+          Nachwuchsforschung. Schülerinnen und Schüler entwickeln Projekte in
+          den Kategorien Biologie, Chemie, Physik, Informatik, Technik und
+          Arbeitswelt und präsentieren ihre Ergebnisse vor Jury-Gremien. Der
+          Wettbewerb bietet Mentoring, Finanzierungsmöglichkeiten und Netzwerke
+          zu Hochschulen und Förderern.
+        </Card>
+        <Card heading="Warum ist die Teilnahme wertvoll?">
+          Teilnehmende erlernen wissenschaftliches Arbeiten: Hypothesenbildung,
+          Versuchsplanung, Datenauswertung und Präsentation. Darüber hinaus
+          eröffnet Jugend forscht Kontakte zu Experten, potenziellen Sponsoren
+          und anderen jungen Forschenden — ein idealer Ort für Rückmeldung und
+          Weiterentwicklung.
+        </Card>
+        <Card heading="Unsere Erfahrung">
+          S.W.E.E.P. wird im Rahmen von Jugend forscht präsentiert und
+          profitiert von Fördermöglichkeiten (Sponsorenpool), fachlichem
+          Feedback und der Sichtbarkeit, die der Wettbewerb bietet. Die
+          Teilnahme motiviert zu transparentem, methodischem Vorgehen und hilft,
+          Entwicklungsfortschritte zielführend zu dokumentieren.
+        </Card>
+        <Card heading="Mach mit">
+          Du hast eine Idee, die du umsetzen möchtest? Jugend forscht bietet die
+          Plattform, um deine Projekte zu realisieren, zu präsentieren und mit
+          anderen jungen Forschenden in Kontakt zu treten. Egal ob du an einem
+          technischen, naturwissenschaftlichen oder gesellschaftlichen Thema
+          arbeitest — hier findest du Unterstützung und Anerkennung für deine
+          Forschung.
+          <br />
+          <a
+            class="underline"
+            href="https://www.jugend-forscht-nrw.de/"
+            target="_blank"
+          >
+            Mehr erfahren
+          </a>
+        </Card>
+      </div>
+    </section>
+    <Footer />
+  </body>
+</html>

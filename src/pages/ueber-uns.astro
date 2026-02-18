@@ -1,0 +1,104 @@
+---
+import { Image } from "astro:assets";
+import "../styles/global.css";
+import "@fontsource/geist";
+import "@fontsource/geist/600";
+import "@fontsource/bitcount-grid-single";
+import "@fontsource/geist-mono";
+
+import rolandjonas from "../assets/rolandjonas.jpeg";
+
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import CardDuo from "../components/CardDuo.astro";
+import CardInline from "../components/CardInline.astro";
+
+const navigationLinks = [
+  ["Das Projekt", "/sweep-web/projekt"],
+  ["Über uns", "/sweep-web/ueber-uns"],
+  ["Dokumentation", "/sweep-web/dokumentation"],
+  ["FAQ", "/sweep-web/faq"],
+  ["Über Jugend forscht", "/sweep-web/ueber-jugend"],
+  ["Jugend forscht am AvH", "/sweep-web/jugend-avh"],
+  ["Unterstützung", "/sweep-web/unterstuetzung"],
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>SWEEP - Jugend forscht</title>
+  </head>
+  <body>
+    <Header navigationLinks={navigationLinks} />
+    <section class="">
+      <div class="flex mt-48 mx-36 gap-24 justify-center items-center">
+        <div>
+          <h1 class="font-bit text-6xl">Über uns</h1>
+          <p class="mt-4">
+            Zwei Schüler, ein gemeinsames Ziel: Technik und Nachhaltigkeit
+            verbinden, lernen und praktisch umsetzen.
+          </p>
+        </div>
+        <div>
+          <Image
+            class="rounded-2xl border border-black/20 shadow"
+            width="640"
+            src={rolandjonas}
+            alt=""
+          />
+          <p class="mt-2 text-sm">
+            Von links nach rechts: Roland Jindra, Jonas Koch
+          </p>
+        </div>
+      </div>
+      <div class="mx-24 mt-28">
+        <h1 class="font-bit uppercase text-4xl text-center mb-8">
+          Team & Rollen
+        </h1>
+        <CardDuo
+          headingOne="Roland Jindra"
+          headingTwo="Jonas Koch"
+          paragraphOne="Kommunikation, Projektleitung, Vermarktung, Entwicklung und technische Umsetzung. Roland ist Mitglied im Projektkurs „Nachhaltige Entwicklung“ der Schule und treibt die konzeptionellen sowie organisatorischen Aspekte voran."
+          paragraphTwo="Programmierung, künstliche Intelligenz, Informatik und Modellierung. Jonas bringt Erfahrungen in Robotik-Programmierung mit (u. a. Bau und Programmierung von Drohnen) und verantwortet das Training der KI sowie die Software-Integration."
+        />
+        <div class="mt-8">
+          <CardDuo
+            headingOne="Lisa Moritz"
+            headingTwo="Dimitri Bartsch"
+            paragraphOne="Verantwortlich für das Design des SWEEP-Logos und die visuelle Identität des Projekts. Lisa übersetzt Inhalte in klare, kreative Gestaltung und gibt dem Projekt ein wiedererkennbares Gesicht."
+            paragraphTwo="Zuständig für Design und Aufbau dieser Webseite."
+          />
+        </div>
+      </div>
+      <div
+        class="mt-8 flex flex-col gap-8 border-t-2 border-b-2 border-dotted p-8"
+      >
+        <CardInline heading="Warum wir das machen">
+          Umweltbewusstsein und Technik-Interesse treffen bei uns aufeinander:
+          Wir sehen Technologie als Werkzeug, um konkrete Probleme im Alltag zu
+          lösen — nicht abstrakt, sondern praktisch. Die Auseinandersetzung mit
+          KI, Embedded-Systemen und Mechanik eröffnet dabei viele Lernfelder:
+          Prototyping, Hardware-Integration, Datenverarbeitung und
+          Projektmanagement.
+        </CardInline>
+        <CardInline heading="Arbeitsweise">
+          Wir arbeiten wöchentlich in der Jugend-forscht-AG und in zusätzlichen
+          Terminen außerhalb der Schule zusammen. Die Aufgabenverteilung ist
+          klar: Roland koordiniert externe Kontakte, Dokumentation und
+          Hardwareaufbau; Jonas implementiert Algorithmen, trainiert Modelle und
+          optimiert die Softwarearchitektur.
+        </CardInline>
+        <CardInline heading="Unsere Werte">
+          Transparenz (Open Source), Gemeinwohlorientierung (nicht
+          profitorientiert), Tierschutz und Sicherheit — all das prägt unser
+          Vorgehen und unsere Entscheidungen in Design und Betrieb.
+        </CardInline>
+      </div>
+    </section>
+    <Footer />
+  </body>
+</html>

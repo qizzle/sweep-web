@@ -1,6 +1,6 @@
 # sweep-web
 
-todoa
+For the German [Jugend forscht](https://www.jugend-forscht-nrw.de/) competition.
 
 ## License
 

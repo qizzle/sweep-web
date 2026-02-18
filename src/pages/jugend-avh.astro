@@ -1,0 +1,72 @@
+---
+import "../styles/global.css";
+import "@fontsource/geist";
+import "@fontsource/geist/600";
+import "@fontsource/bitcount-grid-single";
+import "@fontsource/geist-mono";
+
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Card from "../components/Card.astro";
+
+const navigationLinks = [
+  ["Das Projekt", "/sweep-web/projekt"],
+  ["Über uns", "/sweep-web/ueber-uns"],
+  ["Dokumentation", "/sweep-web/dokumentation"],
+  ["FAQ", "/sweep-web/faq"],
+  ["Über Jugend forscht", "/sweep-web/ueber-jugend"],
+  ["Jugend forscht am AvH", "/sweep-web/jugend-avh"],
+  ["Unterstützung", "/sweep-web/unterstuetzung"],
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>SWEEP - Jugend forscht</title>
+  </head>
+  <body>
+    <Header navigationLinks={navigationLinks} />
+    <section>
+      <h1
+        class="font-bit text-4xl md:text-6xl uppercase mb-2 text-center mt-36"
+      >
+        Jugend forscht am AvH
+      </h1>
+      <h2 class="text-center text-2xl mb-8">
+        (Alexander-von-Humboldt-Gymnasium, Neuss)
+      </h2>
+      <p class="text-center mx-4 md:mx-24 text-lg">
+        Ein förderliches Umfeld: AG-Struktur, Lehrerbetreuung und erfolgreiche
+        Schülerprojekte.
+      </p>
+      <div class="mx-4 md:mx-24 my-10 flex flex-col gap-8 mt-8">
+        <Card heading="Struktur & Angebote">
+          Am AvH gibt es eine feste Jugend-forscht-AG unter Leitung von
+          Lehrkräften mit wöchentlichen Treffen zur Abstimmung und praktischen
+          Arbeit — zusätzlich werden Projektzeiten im Schulalltag
+          bereitgestellt. Diese Struktur ermöglicht langfristige
+          Projektentwicklung und kontinuierliche Betreuung.
+        </Card>
+        <Card heading="Erfolge & Aktuelles">
+          Unsere Schule ist aktiv: In diesem Jahr wurden vier Projekte in
+          Bereichen wie Astronomie, Biologie und Arbeitswelt eingereicht.
+          Außerdem brachte das AvH bereits herausragende Leistungen in
+          Informatik hervor (z. B. Schüler wie Simon Neuenhausen wurden national
+          gewürdigt). Solche Erfolge zeigen: Das Umfeld fördert Engagement und
+          technische Exzellenz.
+        </Card>
+        <Card heading="Kooperationen">
+          Durch den engen Austausch mit Förderverein, Lehrkräften und externen
+          Partnern — etwa kommunalen Akteuren oder Entsorgungsbetrieben —
+          entstehen praxisnahe Entwicklungsmöglichkeiten für Projekte wie
+          S.W.E.E.P.
+        </Card>
+      </div>
+    </section>
+    <Footer />
+  </body>
+</html>

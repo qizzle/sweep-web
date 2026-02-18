@@ -1,0 +1,10 @@
+---
+const { heading } = Astro.props;
+---
+
+<div class="flex justify-between border-2 border-dotted p-4">
+  <h1 class="w-full font-bit text-3xl">{heading}</h1>
+  <div class="w-full text-lg">
+    <slot />
+  </div>
+</div>

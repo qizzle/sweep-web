@@ -1,0 +1,28 @@
+---
+const { title } = Astro.props;
+---
+
+<div class="accordion-item">
+  <div
+    class="accordion-header flex w-full justify-between border p-4 hover:bg-black/5 transition cursor-pointer"
+  >
+    <h2 class="font-semibold text-xl select-none">{title}</h2>
+    <button class="cursor-pointer">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 16 16"
+        fill="currentColor"
+        class="size-5 transition-transform accordion-icon"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="accordion-content w-full border-l border-r border-b p-4 hidden">
+    <slot />
+  </div>
+</div>

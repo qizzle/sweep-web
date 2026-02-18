@@ -1,0 +1,14 @@
+---
+const { headingOne, headingTwo, paragraphOne, paragraphTwo } = Astro.props;
+---
+
+<div class="flex gap-12 border-2 border-dotted p-6">
+  <div class="w-1/2 border-r-2 border-dotted pr-6">
+    <h1 class="font-bit text-3xl mb-2">{headingOne}</h1>
+    <p class="text-lg">{paragraphOne}</p>
+  </div>
+  <div class="w-1/2">
+    <h1 class="font-bit text-3xl mb-2">{headingTwo}</h1>
+    <p class="text-lg">{paragraphTwo}</p>
+  </div>
+</div>

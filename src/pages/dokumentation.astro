@@ -1,0 +1,106 @@
+---
+import "../styles/global.css";
+import "@fontsource/geist";
+import "@fontsource/geist/600";
+import "@fontsource/bitcount-grid-single";
+import "@fontsource/geist-mono";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Card from "../components/Card.astro";
+import CardInline from "../components/CardInline.astro";
+
+const navigationLinks = [
+  ["Das Projekt", "/sweep-web/projekt"],
+  ["Über uns", "/sweep-web/ueber-uns"],
+  ["Dokumentation", "/sweep-web/dokumentation"],
+  ["FAQ", "/sweep-web/faq"],
+  ["Über Jugend forscht", "/sweep-web/ueber-jugend"],
+  ["Jugend forscht am AvH", "/sweep-web/jugend-avh"],
+  ["Unterstützung", "/sweep-web/unterstuetzung"],
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>SWEEP - Jugend forscht</title>
+  </head>
+  <body>
+    <Header navigationLinks={navigationLinks} />
+    <section>
+      <h1
+        class="font-bit text-4xl md:text-6xl uppercase mb-8 text-center mt-36"
+      >
+        Dokumentation
+      </h1>
+      <p class="text-center mx-4 md:mx-24 text-lg">
+        Detaillierte Entwicklungsdokumentation: von der Ideenfindung über
+        Designentscheidungen bis zu technischen Tests und Lessons Learned.
+      </p>
+
+      <div
+        class="my-8 px-12 md:px-24 border-dotted border-t-2 border-b-2 py-8 flex flex-col gap-8"
+      >
+        <CardInline heading="1. Ideenfindung & Konzept">
+          Ursprungsidee war die Beobachtung von Verschmutzungen im Neusser
+          Stadtgarten. Darauf folgten erste Skizzen und die Definition zentraler
+          Anforderungen für Gelände, Sicherheit und Energiebedarf.
+        </CardInline>
+        <CardInline heading="2. Mechanik & Aufbau">
+          Es fiel die Entscheidung für einen Kettenantrieb. Die Aufnahmeeinheit
+          wurde mit Zacken und Bürsten entwickelt, ergänzt durch ein
+          Förderband-Konzept und eine Innenlagerung mit 60-L-Beutel.
+        </CardInline>
+        <CardInline heading="3. Elektronik & Energie">
+          Eingesetzt werden 12V-DC-Motoren für Antrieb und Bürsten. Die
+          Batterie-Dimensionierung liegt bei 12,8 V und etwa 100 Ah, ergänzt
+          durch Spannungswandler für die Onboard-Elektronik.
+        </CardInline>
+        <CardInline heading="4. Software & KI">
+          Auswahl und Anpassung eines YOLO-Modells mit Training auf dem
+          TACO-Dataset und Umklassifizierung der Labels auf „Müll“. Ein
+          Jetson-Mini-Computer dient als Hauptrechner, ein Mikrocontroller
+          (PCA9682) übernimmt die Motor-Steuerung.
+        </CardInline>
+        <CardInline heading="5. Tests & Validierung">
+          Umgesetzt wurden Bildauswertung, Live-Kamera-Tests und erste Feldtests
+          im Schulumfeld. Die Ergebnisse wurden in Fehleranalyse und iterative
+          Optimierungen überführt.
+        </CardInline>
+      </div>
+
+      <div class="mx-4 md:mx-24 my-10">
+        <Card heading="Wesentliche Herausforderungen & Lösungen">
+          Frühzeitige Verzögerungen entstanden durch spät eintreffende
+          Fördermittel und damit begrenzte Bauzeit der physischen Komponenten.
+          <br /><br />
+          Treiber- und Kompatibilitätsprobleme beim Mini-Computer verlangsamten die
+          Software-Integration; gelöst wurde dies durch iterative Debugging-Phasen.
+          <br /><br />
+          Erste KI-Modelle lieferten zu wenige Frames pro Sekunde. Testreihen mit
+          unterschiedlichen YOLO-Varianten (yolov5s, yolov11s) zeigten Trade-offs
+          zwischen Genauigkeit und Geschwindigkeit. Die Lösung bestand in der Optimierung
+          von Bildgröße und Batch-Parametern sowie schrittweisem Modell-Pruning.
+          <br /><br />
+          In der Mechanik war die Abstimmung von Bürstentyp und Zackenabständen iterativ:
+          Zu weich bedeutete zu wenig Halt für Glas, zu hart erhöhte das Risiko von
+          Bodenbeschädigungen. Ergebnis war der Einsatz von 3D-gedruckten, feinstufigen
+          Kunststoffstäben als Kompromiss.
+        </Card>
+      </div>
+
+      <div class="mx-4 md:mx-24 mb-12">
+        <Card heading="Open Source & Nachvollziehbarkeit">
+          Alle Software-Skripte, Trainings-Anleitungen und CAD-Skizzen sind als
+          Open-Source-Material geplant, damit Schulen, Kommunen und
+          Entwicklergruppen das Projekt nachvollziehen, adaptieren und
+          weiterentwickeln können.
+        </Card>
+      </div>
+    </section>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,108 @@
+---
+import "../styles/global.css";
+import "@fontsource/geist";
+import "@fontsource/geist/600";
+import "@fontsource/bitcount-grid-single";
+import "@fontsource/geist-mono";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Accordion from "../components/Accordion.astro";
+
+const navigationLinks = [
+  ["Das Projekt", "/sweep-web/projekt"],
+  ["Über uns", "/sweep-web/ueber-uns"],
+  ["Dokumentation", "/sweep-web/dokumentation"],
+  ["FAQ", "/sweep-web/faq"],
+  ["Über Jugend forscht", "/sweep-web/ueber-jugend"],
+  ["Jugend forscht am AvH", "/sweep-web/jugend-avh"],
+  ["Unterstützung", "/sweep-web/unterstuetzung"],
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>SWEEP - Jugend forscht</title>
+  </head>
+  <body>
+    <Header navigationLinks={navigationLinks} />
+    <section class="h-screen">
+      <h1 class="font-bit text-6xl uppercase mb-8 text-center mt-36">FAQ</h1>
+      <p class="text-center">
+        Antworten auf technische, betriebliche und sicherheitsrelevante Fragen.
+      </p>
+      <div class="mt-8 mx-24 flex flex-col gap-8">
+        <!-- -->
+        <Accordion title="Ist S.W.E.E.P. gefährlich für Tiere?">
+          Nein — Sicherheit ist zentral. Der Roboter arbeitet langsam, verfügt
+          über LiDAR-Sensoren für 360°-Erkennung, eine automatische
+          Notabschaltung bei Annäherung und physische Schutzabdeckungen über
+          beweglichen Teilen. Zusätzlich prüfen wir eine „Käfig-ähnliche“
+          Abdeckung um empfindliche Mechanik, um Kleintiere zu schützen.
+        </Accordion>
+        <Accordion title="Ersetzt der Roboter Reinigungskräfte?">
+          Nicht als generelle Aussage. Ziel ist, repetitive und körperlich
+          belastende Aufgaben (z. B. Bücken, Heben, Umgang mit schmutzigem
+          Abfall) zu übernehmen. Die Maschine soll Reinigungsteams ergänzen und
+          deren Arbeit effizienter machen, nicht die menschliche Aufsicht
+          ersetzen.
+        </Accordion>
+        <Accordion title="Wie autonom ist das System?">
+          Der Prototyp fährt selbstständig innerhalb eingestellter Bereiche,
+          lokalisiert Müllobjekte und aktiviert Aufnahmemechanismen automatisch.
+          Vollständige Autonomie (mehrere, vernetzte Einheiten, selbstständiges
+          Laden/Entleeren) ist eine Entwicklungsstufe, an der wir arbeiten.
+        </Accordion>
+        <Accordion title="Wie zuverlässig ist die KI?">
+          Wir haben mit dem TACO-Datensatz trainiert und mehrere
+          YOLO-Modelvarianten getestet. Die Erkennungsrate ist in typischen
+          Szenarien vielversprechend, in komplexen Situationen (starke
+          Verschattung, stark überlagerter Laubfall) aber noch
+          verbesserungswürdig — deshalb setzen wir auf kontinuierliches
+          Retraining mit zusätzlichen, eigenen Bilddaten aus Feldtests.
+        </Accordion>
+        <Accordion title="Wer kontrolliert die Daten?">
+          Datenschutz und Transparenz sind uns wichtig. Bilddaten werden
+          ausschließlich für Trainings- und Entwicklungszwecke verwendet;
+          öffentliche oder personenbezogene Bilder werden nicht ohne
+          Einwilligung gespeichert. Der Code und die Datennutzung werden
+          dokumentiert.
+        </Accordion>
+        <Accordion title="Ist das Projekt kommerziell?">
+          Aktuell gemeinnützig und Open Source. Kommerzielle Anwendungen sind
+          denkbar für die Zukunft, doch vorrangig wollen wir eine verlässliche,
+          nachnutzbare Lösung bereitstellen.
+        </Accordion>
+        <!-- -->
+      </div>
+    </section>
+    <Footer />
+  </body>
+</html>
+<script>
+  document.querySelectorAll(".accordion-item").forEach((item) => {
+    const header = item.querySelector(".accordion-header");
+
+    // @ts-ignore
+    header.addEventListener("click", () => {
+      const content = item.querySelector(".accordion-content");
+      const icon = item.querySelector(".accordion-icon");
+
+      document.querySelectorAll(".accordion-content").forEach((el) => {
+        if (el !== content) el.classList.add("hidden");
+      });
+
+      document.querySelectorAll(".accordion-icon").forEach((el) => {
+        if (el !== icon) el.classList.remove("rotate-180");
+      });
+
+      // @ts-ignore
+      content.classList.toggle("hidden");
+      // @ts-ignore
+      icon.classList.toggle("rotate-180");
+    });
+  });
+</script>
