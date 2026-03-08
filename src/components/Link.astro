@@ -2,7 +2,9 @@
 const { href } = Astro.props;
 ---
 
-<a href={href} class="flex items-center hover:underline cursor-pointer w-fit"
+<a
+  href={href}
+  class="inline-flex items-center gap-1 hover:underline cursor-pointer w-fit break-words"
   ><slot /><svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 16 16"

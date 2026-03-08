@@ -6,7 +6,7 @@ const { title } = Astro.props;
   <div
     class="accordion-header flex w-full justify-between border p-4 hover:bg-black/5 transition cursor-pointer"
   >
-    <h2 class="font-semibold text-xl select-none">{title}</h2>
+    <h2 class="font-semibold text-lg md:text-xl select-none pr-3">{title}</h2>
     <button class="cursor-pointer">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +22,9 @@ const { title } = Astro.props;
     </button>
   </div>
 
-  <div class="accordion-content w-full border-l border-r border-b p-4 hidden">
+  <div
+    class="accordion-content w-full border-l border-r border-b p-4 text-sm md:text-base hidden"
+  >
     <slot />
   </div>
 </div>

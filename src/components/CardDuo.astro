@@ -2,13 +2,17 @@
 const { headingOne, headingTwo, paragraphOne, paragraphTwo } = Astro.props;
 ---
 
-<div class="flex gap-12 border-2 border-dotted p-6">
-  <div class="w-1/2 border-r-2 border-dotted pr-6">
-    <h1 class="font-bit text-3xl mb-2">{headingOne}</h1>
-    <p class="text-lg">{paragraphOne}</p>
+<div
+  class="flex flex-col md:flex-row gap-8 md:gap-12 border-2 border-dotted p-4 md:p-6"
+>
+  <div
+    class="w-full md:w-1/2 md:border-r-2 border-dotted md:pr-6 pb-6 md:pb-0 border-b-2 md:border-b-0"
+  >
+    <h1 class="font-bit text-2xl md:text-3xl mb-2">{headingOne}</h1>
+    <p class="text-base md:text-lg">{paragraphOne}</p>
   </div>
-  <div class="w-1/2">
-    <h1 class="font-bit text-3xl mb-2">{headingTwo}</h1>
-    <p class="text-lg">{paragraphTwo}</p>
+  <div class="w-full md:w-1/2">
+    <h1 class="font-bit text-2xl md:text-3xl mb-2">{headingTwo}</h1>
+    <p class="text-base md:text-lg">{paragraphTwo}</p>
   </div>
 </div>

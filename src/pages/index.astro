@@ -160,14 +160,17 @@ cv2.destroyAllWindows()
   </head>
   <>
     <Header navigationLinks={navigationLinks} />
-    <section id="hero" class="h-screen w-full grid grid-cols-1 md:grid-cols-2">
+    <section
+      id="hero"
+      class="min-h-screen w-full grid grid-cols-1 md:grid-cols-2"
+    >
       <div
         class="mx-4 md:mx-8 mt-24 mb-8 border-3 border-dotted flex justify-center items-center"
       >
         <Image src={korpus} alt="" class="w-full md:w-3xl" />
       </div>
-      <div class="my-auto mx-4 md:mx-24">
-        <h1 class="font-bit text-6xl md:text-8xl">SWEEP</h1>
+      <div class="my-auto mx-4 md:mx-24 pb-8 md:pb-0">
+        <h1 class="font-bit text-5xl md:text-8xl">SWEEP</h1>
         <p class="text-sm">
           <span class="underline">S</span>mart <span class="underline">W</span
           >aste <span class="underline">E</span>limination & <span
@@ -175,11 +178,13 @@ cv2.destroyAllWindows()
           >co
           <span class="underline">P</span>rotection
         </p>
-        <p class="mt-8 mb-4 text-lg tracking-tight">
+        <p class="mt-6 md:mt-8 mb-4 text-base md:text-lg tracking-tight">
           Ein intelligenter Müllsammelroboter für Grünflächen und öffentliche
           Grünanlagen.
         </p>
-        <p class="flex items-center gap-1.5">
+        <p
+          class="flex items-start md:items-center gap-1.5 text-sm md:text-base"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -225,14 +230,14 @@ cv2.destroyAllWindows()
     </section>
     <section
       id="ideenfindung"
-      class="py-4 w-full grid grid-cols-1 md:grid-cols-2 grid-rows-2 px-0 md:px-8"
+      class="py-4 w-full grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 px-0 md:px-8 overflow-x-hidden"
     >
       <div
-        class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 md:border-l-3 border-dotted"
+        class="flex flex-col text-center gap-6 md:gap-8 py-10 md:py-12 px-4 md:px-16 border-t-3 md:border-l-3 border-dotted"
       >
         <h1 class="font-bit text-4xl md:text-6xl uppercase relative">
           <span
-            class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
+            class="absolute right-0 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-5xl md:text-10xl"
             >#1</span
           >Motivation
         </h1>
@@ -274,11 +279,11 @@ cv2.destroyAllWindows()
         >
       </div>
       <div
-        class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 md:border-r-3 md:border-l-3 border-dotted"
+        class="flex flex-col text-center gap-6 md:gap-8 py-10 md:py-12 px-4 md:px-16 border-t-3 md:border-r-3 md:border-l-3 border-dotted"
       >
         <h1 class="font-bit text-4xl md:text-6xl uppercase relative">
           <span
-            class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
+            class="absolute right-0 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-5xl md:text-10xl"
             >#2</span
           >Aufbau
         </h1>
@@ -302,11 +307,11 @@ cv2.destroyAllWindows()
         </p>
       </div>
       <div
-        class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 md:border-l-3 md:border-b-3 border-dotted"
+        class="flex flex-col text-center gap-6 md:gap-8 py-10 md:py-12 px-4 md:px-16 border-t-3 md:border-l-3 md:border-b-3 border-dotted"
       >
         <h1 class="font-bit text-4xl md:text-6xl uppercase relative">
           <span
-            class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
+            class="absolute right-0 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-5xl md:text-10xl"
             >#3</span
           >KI
         </h1>
@@ -372,11 +377,11 @@ cv2.destroyAllWindows()
         </div>
       </div>
       <div
-        class="flex flex-col text-center gap-8 py-12 px-4 md:px-16 border-t-3 border-b-3 md:border-3 border-dotted"
+        class="flex flex-col text-center gap-6 md:gap-8 py-10 md:py-12 px-4 md:px-16 border-t-3 border-b-3 md:border-3 border-dotted"
       >
         <h1 class="font-bit text-4xl md:text-6xl uppercase relative">
           <span
-            class="absolute -right-8 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-6xl md:text-10xl"
+            class="absolute right-0 md:-right-13 -z-10 -top-5 rotate-[45deg] text-black/20 text-5xl md:text-10xl"
             >#4</span
           >Ausblick
         </h1>
@@ -398,7 +403,7 @@ cv2.destroyAllWindows()
         </p>
       </div>
     </section>
-    <section class="px-4 md:px-36 py-24">
+    <section class="px-4 md:px-36 py-16 md:py-24">
       <h1 class="font-bit text-4xl md:text-6xl uppercase mb-12 text-center">
         Code
       </h1>

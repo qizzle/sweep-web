@@ -29,12 +29,16 @@ const navigationLinks = [
   </head>
   <body>
     <Header navigationLinks={navigationLinks} />
-    <section class="h-screen">
-      <h1 class="font-bit text-6xl uppercase mb-8 text-center mt-36">FAQ</h1>
-      <p class="text-center">
+    <section class="min-h-screen">
+      <h1
+        class="font-bit text-4xl md:text-6xl uppercase mb-6 md:mb-8 text-center mt-32 md:mt-36"
+      >
+        FAQ
+      </h1>
+      <p class="text-center px-4">
         Antworten auf technische, betriebliche und sicherheitsrelevante Fragen.
       </p>
-      <div class="mt-8 mx-24 flex flex-col gap-8">
+      <div class="mt-8 mx-4 md:mx-24 mb-12 flex flex-col gap-6 md:gap-8">
         <!-- -->
         <Accordion title="Ist S.W.E.E.P. gefährlich für Tiere?">
           Nein — Sicherheit ist zentral. Der Roboter arbeitet langsam, verfügt
