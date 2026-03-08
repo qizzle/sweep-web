@@ -1,0 +1,118 @@
+---
+import "../styles/global.css";
+import "@fontsource/geist";
+import "@fontsource/geist/600";
+import "@fontsource/bitcount-grid-single";
+import "@fontsource/geist-mono";
+
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>SWEEP - Spenden</title>
+  </head>
+  <body>
+    <Header />
+    <section class="px-4 md:px-24 mt-32 md:mt-36 mb-12">
+      <h1 class="font-bit text-4xl md:text-6xl uppercase text-center mb-6">
+        Unterstützen Sie SWEEP
+      </h1>
+      <p
+        class="text-center max-w-4xl mx-auto text-base md:text-lg leading-relaxed"
+      >
+        Innovative Ideen brauchen Unterstützung. Unser Projekt S.W.E.E.P. zeigt,
+        wie moderne Technik und künstliche Intelligenz dazu beitragen können,
+        Städte sauberer und nachhaltiger zu machen. Als Schülerprojekt im Rahmen
+        von Jugend forscht entwickeln wir unseren autonomen Müllsammelroboter
+        kontinuierlich weiter – für neue Tests, bessere Technik und den
+        praktischen Einsatz im öffentlichen Raum.
+      </p>
+    </section>
+
+    <section class="px-4 md:px-24 mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="border-2 border-dotted p-4 md:p-6">
+          <h2 class="font-bit text-3xl md:text-4xl uppercase mb-4">
+            So können Sie helfen
+          </h2>
+          <ul class="list-disc pl-5 space-y-3 text-base md:text-lg">
+            <li>
+              Spenden, um neue technische Komponenten und Materialien zu
+              finanzieren
+            </li>
+            <li>
+              Sachspenden wie Elektronik, Sensorik oder mechanische Bauteile
+            </li>
+            <li>
+              Kooperationen mit Unternehmen, Institutionen oder öffentlichen
+              Einrichtungen
+            </li>
+          </ul>
+          <p class="mt-6 text-base md:text-lg leading-relaxed">
+            Jede Unterstützung - groß oder klein - hilft uns, aus einer Idee
+            eine praktische Lösung für sauberere Städte zu machen.
+          </p>
+        </div>
+
+        <div
+          class="border-2 border-dotted p-4 md:p-6 flex flex-col justify-between gap-6"
+        >
+          <div>
+            <h2 class="font-bit text-3xl md:text-4xl uppercase mb-4">
+              QR-Code für Spenden
+            </h2>
+            <p class="text-base md:text-lg leading-relaxed">
+              Hier ist Platz für Ihren QR-Code zur schnellen Unterstützung per
+              Smartphone.
+            </p>
+          </div>
+          <div
+            class="w-full aspect-square max-w-[320px] mx-auto border-2 border-dotted flex items-center justify-center text-center bg-black/[0.03]"
+          >
+            <a href="https://www.paypal.com/pools/c/9ngAWStbP9" target="_blank">
+              <img
+                src="https://genqrcode.com/embedded?style=5&inner_eye_style=0&outer_eye_style=0&logo=51969aea1b46ec92969252ddef20c55e&color=%23000000FF&background_color=%23FFFFFFFF&inner_eye_color=%23000000&outer_eye_color=%23000000&imageformat=svg&language=en&frame_style=0&frame_text=SCAN%20ME&frame_text_icon_color=%23000000&frame_text_icon=null&frame_color=%23000000&frame_background_color=%23FFFFFF&frame_text_color=%23FFFFFF&invert_colors=false&gradient_style=0&gradient_color_start=%23FF0000&gradient_color_end=%237F007F&gradient_start_offset=5&gradient_end_offset=95&stl_type=1&logo_remove_background=true&stl_size=100&stl_qr_height=1.5&stl_base_height=2&stl_include_stands=false&stl_qr_magnet_type=3&stl_qr_magnet_count=0&type=0&text=https%3A%2F%2Fwww.paypal.com%2Fpools%2Fc%2F9ngAWStbP9&width=500&height=500&bordersize=2"
+                alt="qr code"
+                class="w-full h-full object-contain"
+              />
+            </a>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a
+              href="https://www.paypal.com/pools/c/9ngAWStbP9"
+              target="_blank"
+              class="w-full text-center px-4 py-2 rounded-full bg-blue-500 text-blue-50 hover:bg-blue-600 transition border border-black/10"
+            >
+              Jetzt spenden
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-4 md:px-24 mb-16">
+      <div class="border-2 border-dotted p-4 md:p-6 text-center">
+        <h2 class="font-bit text-3xl md:text-4xl uppercase mb-4">
+          Kontakt für Unterstützung und Spenden
+        </h2>
+        <a
+          class="underline text-lg md:text-xl break-words"
+          href="mailto:roland.jugendforscht@outlook.com"
+          >roland.jugendforscht@outlook.com</a
+        >
+        <p class="mt-4 text-base md:text-lg">
+          Wir freuen uns über jede Nachricht und bedanken uns herzlich für Ihr
+          Interesse an unserem Projekt.
+        </p>
+      </div>
+    </section>
+
+    <Footer />
+  </body>
+</html>

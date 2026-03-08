@@ -8,7 +8,6 @@ import "@fontsource/geist-mono";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Card from "../components/Card.astro";
-import CardDuo from "../components/CardDuo.astro";
 import CardInline from "../components/CardInline.astro";
 
 import { Image } from "astro:assets";
@@ -16,16 +15,6 @@ import { Image } from "astro:assets";
 import jugendforschtsticker from "../assets/jugendforschtsticker.jpeg";
 import neuhausen from "../assets/neuhausen.jpeg";
 import avhfoerder from "../assets/avhfoerder.jpeg";
-
-const navigationLinks = [
-  ["Das Projekt", "/sweep-web/projekt"],
-  ["Über uns", "/sweep-web/ueber-uns"],
-  ["Dokumentation", "/sweep-web/dokumentation"],
-  ["FAQ", "/sweep-web/faq"],
-  ["Über Jugend forscht", "/sweep-web/ueber-jugend"],
-  ["Jugend forscht am AvH", "/sweep-web/jugend-avh"],
-  ["Unterstützung", "/sweep-web/unterstuetzung"],
-];
 ---
 
 <html lang="en">
@@ -37,7 +26,7 @@ const navigationLinks = [
     <title>SWEEP - Jugend forscht</title>
   </head>
   <body>
-    <Header navigationLinks={navigationLinks} />
+    <Header />
     <section>
       <h1
         class="font-bit text-4xl md:text-6xl uppercase mb-8 text-center mt-32 md:mt-36"
@@ -49,13 +38,38 @@ const navigationLinks = [
         Projekt tragen.
       </p>
 
-      <div class="mx-4 md:mx-24 mt-10">
-        <CardDuo
-          headingOne="Finanzierung"
-          headingTwo="Sachmittel"
-          paragraphOne="Jugend forscht Sponsorenpool: Erster zentraler Förderer und Unterstützer. Förderverein des Alexander-von-Humboldt-Gymnasiums Neuss: Zusatzförderung und organisatorische Hilfe."
-          paragraphTwo="Erhaltene Fördersumme (als Entwicklungsbasis): 1.572 € aus dem Sponsorenpool plus 200 € vom Förderverein — diese Mittel ermöglichten die Beschaffung zentraler Komponenten wie Mini-Computer, Motoren, Sensorik und 3D-Druck-Materialien."
-        />
+      <div class="mx-4 md:mx-24 mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card heading="Finanzierung">
+          <p class="font-semibold mb-3">Unsere Förderer:</p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li>
+              Jugend forscht Sponsorenpool – zentraler Förderer unseres Projekts
+            </li>
+            <li>
+              Förderverein des Alexander-von-Humboldt-Gymnasiums Neuss –
+              zusätzliche finanzielle Unterstützung und organisatorische Hilfe
+            </li>
+            <li>
+              Ingenieurbüro Neuenhausen – Unterstützung beim Bau der
+              mechanischen Struktur
+            </li>
+          </ul>
+        </Card>
+        <Card heading="Erhaltene Fördermittel">
+          <ul class="list-disc pl-5 space-y-2 mb-4">
+            <li>4.072 € aus dem Jugend forscht Sponsorenpool</li>
+            <li>
+              500 € vom Förderverein des Alexander-von-Humboldt-Gymnasiums Neuss
+            </li>
+            <li>300 € vom Ingenieurbüro Neuenhausen</li>
+          </ul>
+          <p>
+            Diese Mittel bildeten die Grundlage für die Entwicklung unseres
+            Prototyps und ermöglichten die Beschaffung zentraler Komponenten wie
+            Mini-Computer, Motoren, Sensorik, Elektronik sowie Materialien für
+            den 3D-Druck und das Aluminiumgestell.
+          </p>
+        </Card>
       </div>
 
       <div

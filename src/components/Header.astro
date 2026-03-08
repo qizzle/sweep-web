@@ -2,16 +2,26 @@
 import { Image } from "astro:assets";
 import sweepLogo from "../assets/sweep.svg";
 
-const { navigationLinks } = Astro.props;
+const navigationLinks = [
+  ["Das Projekt", "/sweep-web/projekt"],
+  ["Über uns", "/sweep-web/ueber-uns"],
+  ["Dokumentation", "/sweep-web/dokumentation"],
+  ["Erfolge & Auszeichnungen", "/sweep-web/preise"],
+  ["FAQ", "/sweep-web/faq"],
+  ["Über Jugend forscht", "/sweep-web/ueber-jugend"],
+  ["Jugend forscht am AvH", "/sweep-web/jugend-avh"],
+  ["Unterstützung", "/sweep-web/unterstuetzung"],
+  ["Spenden", "/sweep-web/spenden"],
+];
 ---
 
 <header class="p-3 md:p-4 top-0 flex justify-between fixed w-full z-50">
-  <div></div>
+  <div class="hidden md:block"></div>
   <a class="" href="/sweep-web/">
     <Image
       src={sweepLogo}
       alt="sweep"
-      class="w-24 md:w-48 rounded-2xl p-3 md:p-4 backdrop-blur-2xl border border-white/10 hover:opacity-60 transition-opacity"
+      class="w-36 md:w-48 rounded-2xl p-3 md:p-4 backdrop-blur-2xl border border-white/10 hover:opacity-60 transition-opacity"
     />
   </a>
   <button

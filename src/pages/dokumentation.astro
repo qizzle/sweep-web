@@ -8,16 +8,6 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Card from "../components/Card.astro";
 import CardInline from "../components/CardInline.astro";
-
-const navigationLinks = [
-  ["Das Projekt", "/sweep-web/projekt"],
-  ["Über uns", "/sweep-web/ueber-uns"],
-  ["Dokumentation", "/sweep-web/dokumentation"],
-  ["FAQ", "/sweep-web/faq"],
-  ["Über Jugend forscht", "/sweep-web/ueber-jugend"],
-  ["Jugend forscht am AvH", "/sweep-web/jugend-avh"],
-  ["Unterstützung", "/sweep-web/unterstuetzung"],
-];
 ---
 
 <html lang="en">
@@ -29,7 +19,7 @@ const navigationLinks = [
     <title>SWEEP - Jugend forscht</title>
   </head>
   <body>
-    <Header navigationLinks={navigationLinks} />
+    <Header />
     <section>
       <h1
         class="font-bit text-4xl md:text-6xl uppercase mb-8 text-center mt-32 md:mt-36"

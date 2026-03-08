@@ -7,16 +7,6 @@ import "@fontsource/geist";
 import "@fontsource/geist/600";
 import "@fontsource/bitcount-grid-single";
 import "@fontsource/geist-mono";
-
-const navigationLinks = [
-  ["Das Projekt", "/sweep-web/projekt"],
-  ["Über uns", "/sweep-web/ueber-uns"],
-  ["Dokumentation", "/sweep-web/dokumentation"],
-  ["FAQ", "/sweep-web/faq"],
-  ["Über Jugend forscht", "/sweep-web/ueber-jugend"],
-  ["Jugend forscht am AvH", "/sweep-web/jugend-avh"],
-  ["Unterstützung", "/sweep-web/unterstuetzung"],
-];
 ---
 
 <html lang="en">
@@ -28,19 +18,55 @@ const navigationLinks = [
     <title>SWEEP - Jugend forscht</title>
   </head>
   <body>
-    <Header navigationLinks={navigationLinks} />
-    <section class="min-h-screen px-4">
+    <Header />
+    <section class="px-4">
       <h1
         class="font-bit text-4xl md:text-6xl uppercase mb-6 md:mb-8 text-center mt-32 md:mt-36"
       >
         Erfolge und Auszeichnungen
       </h1>
-      <p class="text-center max-w-3xl mx-auto">
+      <p class="text-center max-w-3xl mx-auto text-base md:text-lg">
         Ein Überblick über unsere Fortschritte, Meilensteine und Erfolge auf dem
         Weg zur Entwicklung von S.W.E.E.P.
       </p>
+      <div
+        class="max-w-4xl mx-auto mt-10 mb-16 border-2 border-dotted p-4 md:p-8"
+      >
+        <p class="text-base md:text-lg leading-relaxed">
+          Unser Projekt S.W.E.E.P. konnte bereits mehrfach im Rahmen des
+          Wettbewerbs Jugend forscht überzeugen. Beim Regionalwettbewerb
+          Niederrhein wurden unser technischer Ansatz sowie die
+          gesellschaftliche Relevanz unseres Projekts ausgezeichnet.
+        </p>
 
-      <!-- -->
+        <h2 class="font-bit text-2xl md:text-3xl uppercase mt-8 mb-4">
+          Unsere bisherigen Erfolge
+        </h2>
+        <ul class="list-disc pl-6 space-y-2 text-base md:text-lg">
+          <li>
+            2. Preis im Fachgebiet Technik beim Regionalwettbewerb Niederrhein
+          </li>
+          <li>
+            Sonderpreis Umwelt für den nachhaltigen Ansatz unseres Projekts
+          </li>
+          <li>
+            Sonderpreis der Hochschule Niederrhein für innovative technische
+            Lösungen
+          </li>
+        </ul>
+
+        <p class="text-base md:text-lg leading-relaxed mt-8">
+          Darüber hinaus erhielt unser Projekt auch mediale Aufmerksamkeit.
+          Unter anderem berichtete die Rheinische Post über unsere Arbeit und
+          stellte unsere Idee eines autonomen Müllsammelroboters für öffentliche
+          Grünflächen vor.
+        </p>
+
+        <p class="text-base md:text-lg leading-relaxed mt-6">
+          Diese Auszeichnungen motivieren uns, das Projekt weiterzuentwickeln
+          und unsere Idee in Zukunft noch stärker in die Praxis zu bringen.
+        </p>
+      </div>
     </section>
   </body>
   <Footer />
